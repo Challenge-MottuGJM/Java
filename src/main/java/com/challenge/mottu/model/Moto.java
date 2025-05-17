@@ -25,13 +25,13 @@ public class Moto extends RepresentationModel<Moto>{
 	private Vaga vaga;
 	
 	private String status;
-	@NotEmpty(message = "Não é mermitido a inserção de motos sem Modelo")
+	@NotEmpty(message = "Não é permitido a inserção de motos sem Modelo")
 	private String modelo;
-	@NotEmpty(message = "Não é mermitido a inserção de motos sem Marca")
+	@NotEmpty(message = "Não é permitido a inserção de motos sem Marca")
 	private String marca;
-	@NotEmpty(message = "Não é mermitido a inserção de motos sem Placa")
+	@NotEmpty(message = "Não é permitido a inserção de motos sem Placa")
 	private String placa;
-	@NotEmpty(message = "Não é mermitido a inserção de motos sem Chassi")
+	@NotEmpty(message = "Não é permitido a inserção de motos sem Chassi")
 	private String chassi; 
 	
 

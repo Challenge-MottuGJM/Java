@@ -23,7 +23,7 @@ public class Vaga extends RepresentationModel<Vaga>{
 	@ManyToOne
 	@JoinColumn(name= "BLOCO_ID")
 	private Bloco bloco;
-	@NotEmpty(message = "Não é mermitido a inserção de vaga sem número")
+	@NotEmpty(message = "Não é permitido a inserção de vaga sem número")
 	private Long numero_vaga;
 	
 

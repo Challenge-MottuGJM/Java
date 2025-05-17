@@ -20,6 +20,6 @@ public class Galpao extends RepresentationModel<Galpao>{
 	@Schema(description = "Este atributo representa a chave primária ID", example = "1")
 	@Id
 	private Long id;
-	@NotEmpty(message = "Não é mermitido a inserção de galpao sem nome de identificação")
+	@NotEmpty(message = "Não é permitido a inserção de galpao sem nome de identificação")
 	private String nome_galpao;
 }

@@ -23,7 +23,7 @@ public class Bloco extends RepresentationModel<Bloco>{
 	@ManyToOne
 	@JoinColumn(name= "PATIO_ID")
 	private Patio patio;
-	@NotEmpty(message = "Não é mermitido a inserção de bloco sem letra de identificação")
+	@NotEmpty(message = "Não é permitido a inserção de bloco sem letra de identificação")
 	private String letra_bloco;
 
 }

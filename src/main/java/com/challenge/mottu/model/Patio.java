@@ -23,6 +23,6 @@ public class Patio extends RepresentationModel<Patio>{
 	@ManyToOne
 	@JoinColumn(name= "ANDAR_ID")
 	private Andar andar;
-	@NotEmpty(message = "Não é mermitido a inserção de patio sem número de identificação")
+	@NotEmpty(message = "Não é permitido a inserção de patio sem número de identificação")
 	private Long numero_patio;
 }

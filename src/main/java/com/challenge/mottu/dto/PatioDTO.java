@@ -11,6 +11,8 @@ public class PatioDTO extends RepresentationModel<PatioDTO>{
 	private Andar andar;
 	private Long numero_patio;
 	
+	public PatioDTO(){}
+	
 	public PatioDTO(Patio patio) {
 		this.id = patio.getId();
 		this.andar = patio.getAndar();
