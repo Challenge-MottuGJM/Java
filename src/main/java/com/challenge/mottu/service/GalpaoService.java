@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.challenge.mottu.dto.GalpaoDTO;
 import com.challenge.mottu.mapper.GalpaoMapper;
@@ -20,13 +21,13 @@ public class GalpaoService {
 	@Autowired
 	private GalpaoCachingService cacheG;
 	
-	@Autowired
-	private GalpaoMapper mapper;
+	 @Autowired
+	 private GalpaoMapper mapper;
 	
 	@Autowired
 	private GalpaoMapperInterface mapperInterface;
 	
-	
+	@Transactional(readOnly = true)
 	public Page<GalpaoDTO> paginar(PageRequest req){
 		
 		Page<Galpao> galpoes = cacheG.findAll(req);

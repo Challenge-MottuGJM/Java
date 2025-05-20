@@ -1,8 +1,11 @@
 package com.challenge.mottu.mapper;
 
+import org.springframework.stereotype.Component;
+
 import com.challenge.mottu.dto.AndarDTO;
 import com.challenge.mottu.model.Andar;
 
+@Component
 public class AndarMapper {
 	
 	public AndarDTO toDTO(Andar andar) {

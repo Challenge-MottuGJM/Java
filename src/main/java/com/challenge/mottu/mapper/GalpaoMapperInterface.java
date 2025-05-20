@@ -11,6 +11,6 @@ public interface GalpaoMapperInterface {
 
 	GalpaoDTO toDTO(Galpao galpao);
 	
-	Galpao toEntity(GalpaoDTO toDTO);
+	Galpao toEntity(GalpaoDTO dto);
 	
 }

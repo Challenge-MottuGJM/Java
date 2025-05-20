@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.challenge.mottu.dto.PatioDTO;
 import com.challenge.mottu.mapper.PatioMapper;
@@ -26,7 +27,8 @@ public class PatioService {
 	@Autowired
 	private PatioMapperInterface mapperInterface;
 
-public Page<PatioDTO> paginar(PageRequest req){
+	@Transactional(readOnly = true)
+	public Page<PatioDTO> paginar(PageRequest req){
 		
 		Page<Patio> patios = cacheP.findAll(req);
 	

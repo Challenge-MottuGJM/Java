@@ -1,8 +1,11 @@
 package com.challenge.mottu.mapper;
 
+import org.springframework.stereotype.Component;
+
 import com.challenge.mottu.dto.MotoDTO;
 import com.challenge.mottu.model.Moto;
 
+@Component
 public class MotoMapper {
 
 	public MotoDTO toDTO(Moto moto) {

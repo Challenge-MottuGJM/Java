@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.challenge.mottu.dto.MotoDTO;
 import com.challenge.mottu.mapper.BlocoMapper;
@@ -12,7 +13,7 @@ import com.challenge.mottu.model.Moto;
 import com.challenge.mottu.repository.MotoRepository;
 
 @Service
-public class MotoSercie {
+public class MotoService {
 
 	@Autowired
 	private MotoRepository repM;
@@ -26,7 +27,7 @@ public class MotoSercie {
 	@Autowired
 	private MotoMapperInterface mapperInterface;
 	
-	
+	@Transactional(readOnly = true)
 	public Page<MotoDTO> paginar(PageRequest req){
 		
 		Page<Moto> motos = cacheM.findAll(req);

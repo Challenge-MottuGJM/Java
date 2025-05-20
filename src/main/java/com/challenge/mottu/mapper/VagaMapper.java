@@ -1,8 +1,11 @@
 package com.challenge.mottu.mapper;
 
+import org.springframework.stereotype.Component;
+
 import com.challenge.mottu.dto.VagaDTO;
 import com.challenge.mottu.model.Vaga;
 
+@Component
 public class VagaMapper {
 	
 	public VagaDTO toDTO (Vaga vaga) {

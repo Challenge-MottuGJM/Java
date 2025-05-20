@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.challenge.mottu.dto.VagaDTO;
 import com.challenge.mottu.mapper.BlocoMapper;
@@ -26,7 +27,7 @@ public class VagaService {
 	@Autowired
 	private VagaMapperInterface mapperInterface;
 	
-	
+	@Transactional(readOnly = true)
 	public Page<VagaDTO> paginar(PageRequest req){
 		
 		Page<Vaga> blocos = cacheV.findAll(req);
