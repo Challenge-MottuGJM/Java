@@ -26,12 +26,12 @@ public class PatioCachingService {
 		return repP.findAll();
 	}
 	
-	@Cacheable(value = "buscaPatioPorId", key = "#valor")
+	@Cacheable(value = "buscaPatioPorId")
 	public Optional<Patio> findById(Long id) {
 		return repP.findById(id);
 	}
 	
-	@Cacheable(value = "buscaPatioPaginado", key = "#valor")
+	@Cacheable(value = "buscaPatioPaginado")
 	public Page<Patio> findAll(PageRequest req){
 		return repP.findAll(req);
 	}

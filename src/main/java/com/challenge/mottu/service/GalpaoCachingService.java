@@ -25,12 +25,12 @@ public class GalpaoCachingService {
 		return repG.findAll();
 	}
 	
-	@Cacheable(value = "buscaGalpaoPorId", key = "#valor")
+	@Cacheable(value = "buscaGalpaoPorId")
 	public Optional<Galpao> findById(Long id) {
 		return repG.findById(id);
 	}
 	
-	@Cacheable(value = "buscaGalpaoPaginado", key = "#valor")
+	@Cacheable(value = "buscaGalpaoPaginado")
 	public Page<Galpao> findAll(PageRequest req){
 		return repG.findAll(req);
 	}

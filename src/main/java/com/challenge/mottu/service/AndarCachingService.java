@@ -25,12 +25,12 @@ public class AndarCachingService {
 		return repA.findAll();
 	}
 	
-	@Cacheable(value = "buscaAndarPorId", key = "#valor")
+	@Cacheable(value = "buscaAndarPorId")
 	public Optional<Andar> findById(Long id) {
 		return repA.findById(id);
 	}
 	
-	@Cacheable(value = "buscaAndarPaginado", key = "#valor")
+	@Cacheable(value = "buscaAndarPaginado")
 	public Page<Andar> findAll(PageRequest req){
 		return repA.findAll(req);
 	}

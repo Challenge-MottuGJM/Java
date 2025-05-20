@@ -25,12 +25,12 @@ public class BlocoCachingService {
 		return repB.findAll();
 	}
 	
-	@Cacheable(value = "buscaBlocoPorId", key = "#valor")
+	@Cacheable(value = "buscaBlocoPorId")
 	public Optional<Bloco> findById(Long id) {
 		return repB.findById(id);
 	}
 	
-	@Cacheable(value = "buscaBlocoPaginado", key = "#valor")
+	@Cacheable(value = "buscaBlocoPaginado")
 	public Page<Bloco> findAll(PageRequest req){
 		return repB.findAll(req);
 	}

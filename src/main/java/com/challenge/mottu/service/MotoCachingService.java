@@ -19,18 +19,33 @@ public class MotoCachingService {
 	@Autowired
 	private MotoRepository repM;
 	
+	@Cacheable(value = "retornaMotosPorPlaca")
+	public List<Moto> retornaMotosPorPlaca(String placa){
+		return repM.retornaMotosPorPlaca(placa);
+	}
+	
+	@Cacheable(value = "retornaMotosPorStatus")
+	public List<Moto> retornaMotosPorStatus(String status){
+		return repM.retornaMotosPorStatus(status);
+	}
+	
+	@Cacheable(value = "retornaMotosPorModelo")
+	public List<Moto> retornaMotosPorModelo(String modelo){
+		return repM.retornaMotosPorModelo(modelo);
+	}
+	
 	@Cacheable(value = "buscaTodasAsMotos")
 	public List<Moto> findAll(){
 		
 		return repM.findAll();
 	}
 	
-	@Cacheable(value = "buscaMotoPorId", key = "#valor")
+	@Cacheable(value = "buscaMotoPorId")
 	public Optional<Moto> findById(Long id) {
 		return repM.findById(id);
 	}
 	
-	@Cacheable(value = "buscaMotoPaginado", key = "#valor")
+	@Cacheable(value = "buscaMotoPaginado")
 	public Page<Moto> findAll(PageRequest req){
 		return repM.findAll(req);
 	}

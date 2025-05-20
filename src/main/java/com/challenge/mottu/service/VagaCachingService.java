@@ -25,12 +25,12 @@ public class VagaCachingService {
 		return repV.findAll();
 	}
 	
-	@Cacheable(value = "buscaVagaPorId", key = "#valor")
+	@Cacheable(value = "buscaVagaPorId")
 	public Optional<Vaga> findById(Long id) {
 		return repV.findById(id);
 	}
 	
-	@Cacheable(value = "buscaVagaPaginado", key = "#valor")
+	@Cacheable(value = "buscaVagaPaginado")
 	public Page<Vaga> findAll(PageRequest req){
 		return repV.findAll(req);
 	}
