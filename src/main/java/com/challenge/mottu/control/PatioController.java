@@ -3,6 +3,7 @@ package com.challenge.mottu.control;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -74,14 +75,7 @@ public class PatioController {
 	@GetMapping(value = "/todas")
 	public List<PatioDTO> retornaTodosPatios(){
 		
-		List<Patio> patios = repP.findAll();
-		List<PatioDTO> patios_dto = new ArrayList<PatioDTO>();
-		
-		for (Patio p : patios) {
-			patios_dto.add(mapperInterface.toDTO(p));
-		}
-		
-		return patios_dto;
+		return repP.findAll().stream().map(mapperInterface::toDTO).collect(Collectors.toList());
 	}
 	
 	@Operation(description = "Retorna todos os patios existentes no Cache",
@@ -90,15 +84,7 @@ public class PatioController {
 	@GetMapping(value = "/todas_cacheable")
 	public List<PatioDTO> retonaTodosPatiosCacheable(){
 		
-		List<Patio> patios = cacheP.findAll();
-		List<PatioDTO> patios_dto = new ArrayList<PatioDTO>();
-		
-		for (Patio p : patios) {
-			patios_dto.add(mapperInterface.toDTO(p));
-		}
-		
-		return patios_dto;
-		
+		return cacheP.findAll().stream().map(mapperInterface::toDTO).collect(Collectors.toList());
 	}
 	
 	@Operation(description = "Retorna um patio com base em um ID",

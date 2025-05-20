@@ -13,7 +13,7 @@ public class SwaggerConfiguration {
 	@Bean
 	OpenAPI configurarSwagger() {
 		return new OpenAPI().info(new Info()
-											.title("Projeto de Gestão de Gapão - FIAP x Mottu")
+											.title("Projeto de Gestão de Galpão - FIAP x Mottu")
 											.description("Este projeto visa gerenciar as relações e "
 											+ "as principais funcionalidades referentes aos relacionamentos"
 											+ " entre os elementos "

@@ -1,8 +1,8 @@
 package com.challenge.mottu.control;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -67,21 +67,13 @@ private final MottuApplication mottuApplication;
 		return ResponseEntity.ok(andares_paginados);
 	}
 	
-	
 	@Operation(description = "Retorna todos os andares",
 			summary = "Retorna todos os andares",
 			tags = "Retorno de informação")
 	@GetMapping(value = "/todas")
 	public List<AndarDTO> retornaTodosGalpoes(){
 		
-		List<Andar> andares = repA.findAll();
-		List<AndarDTO> andares_dto = new ArrayList<AndarDTO>();
-		
-		for (Andar a : andares) {
-			andares_dto.add(mapperInterface.toDTO(a));
-		}
-		
-		return andares_dto;
+		return repA.findAll().stream().map(mapperInterface::toDTO).collect(Collectors.toList());
 	}
 	
 	@Operation(description = "Retorna todos os andares existentes no Cache",
@@ -90,14 +82,7 @@ private final MottuApplication mottuApplication;
 	@GetMapping(value = "/todas_cacheable")
 	public List<AndarDTO> retonaTodosAndaresCacheable(){
 		
-		List<Andar> andares = cacheA.findAll();
-		List<AndarDTO> andares_dto = new ArrayList<AndarDTO>();
-		
-		for (Andar a : andares) {
-			andares_dto.add(mapperInterface.toDTO(a));
-		}
-		
-		return andares_dto;
+		return cacheA.findAll().stream().map(mapperInterface::toDTO).collect(Collectors.toList());
 		
 	}
 	

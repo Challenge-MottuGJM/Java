@@ -3,6 +3,7 @@ package com.challenge.mottu.control;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -74,14 +75,7 @@ public class GalpaoController {
 	@GetMapping(value = "/todas")
 	public List<GalpaoDTO> retornaTodosGalpoes(){
 		
-		List<Galpao> galpoes = repG.findAll();
-		List<GalpaoDTO> galpoes_dto = new ArrayList<GalpaoDTO>();
-		
-		for (Galpao g : galpoes) {
-			galpoes_dto.add(mapperInterface.toDTO(g));
-		}
-		
-		return galpoes_dto;
+		return repG.findAll().stream().map(mapperInterface::toDTO).collect(Collectors.toList());
 	}
 	
 	@Operation(description = "Retorna todos os galpões existentes no Cache",
@@ -90,15 +84,7 @@ public class GalpaoController {
 	@GetMapping(value = "/todas_cacheable")
 	public List<GalpaoDTO> retonaTodosGalpoesCacheable(){
 		
-		List<Galpao> galpoes = cacheG.findAll();
-		List<GalpaoDTO> galpoes_dto = new ArrayList<GalpaoDTO>();
-		
-		for (Galpao g : galpoes) {
-			galpoes_dto.add(mapperInterface.toDTO(g));
-		}
-		
-		return galpoes_dto;
-		
+		return cacheG.findAll().stream().map(mapperInterface::toDTO).collect(Collectors.toList());
 	}
 	
 	@Operation(description = "Retorna um galpão com base em um ID",
