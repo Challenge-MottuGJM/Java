@@ -29,6 +29,7 @@ import com.challenge.mottu.service.VagaCachingService;
 import com.challenge.mottu.service.VagaService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/vagas")
@@ -105,12 +106,12 @@ private final MottuApplication mottuApplication;
 			summary = "Inserir um novo vaga",
 			tags = "Inserção de informações")
 	@PostMapping(value = "/inserir")
-	public Vaga inserirVaga(@RequestBody Vaga vaga) {
+	public ResponseEntity<Vaga> inserirVaga(@RequestBody @Valid Vaga vaga) {
 		
 		repV.save(vaga);
 		cacheV.limparCache();
 				
-		return vaga;
+		return ResponseEntity.ok(vaga);
 	}
 	
 	@Operation(description = "Esta operação possibilita a atualização de um item na tabela de vagas",

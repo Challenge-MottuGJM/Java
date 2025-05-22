@@ -1,6 +1,5 @@
 package com.challenge.mottu.control;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,6 +29,7 @@ import com.challenge.mottu.service.BlocoCachingService;
 import com.challenge.mottu.service.BlocoService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/blocos")
@@ -106,12 +106,12 @@ public class BlocoController {
 			summary = "Inserir um novo bloco",
 			tags = "Inserção de informações")
 	@PostMapping(value = "/inserir")
-	public Bloco inserirBloco(@RequestBody Bloco bloco) {
+	public ResponseEntity<Bloco> inserirBloco(@RequestBody @Valid Bloco bloco) {
 		
 		repB.save(bloco);
 		cacheB.limparCache();
 				
-		return bloco;
+		return ResponseEntity.ok(bloco);
 	}
 	
 	@Operation(description = "Esta operação possibilita a atualização de um item na tabela de blocos",

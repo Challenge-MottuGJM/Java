@@ -29,6 +29,7 @@ import com.challenge.mottu.service.MotoCachingService;
 import com.challenge.mottu.service.MotoService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/motos")
@@ -126,12 +127,12 @@ private final MottuApplication mottuApplication;
 			summary = "Inserir uma nova moto",
 			tags = "Inserção de informações")
 	@PostMapping(value = "/inserir")
-	public Moto inserirMoto(@RequestBody Moto moto) {
+	public ResponseEntity<Moto> inserirMoto(@RequestBody @Valid Moto moto) {
 		
 		repM.save(moto);
 		cacheM.limparCache();
 				
-		return moto;
+		return ResponseEntity.ok(moto);
 	}
 	
 	@Operation(description = "Esta operação possibilita a atualização de um item na tabela de motos",

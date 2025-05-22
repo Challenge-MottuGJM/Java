@@ -7,6 +7,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Schema(description = "Esta classe irá representar a entidade Moto")
@@ -27,7 +28,6 @@ public class Moto{
 	private String modelo;
 	@NotEmpty(message = "Não é permitido a inserção de motos sem Marca")
 	private String marca;
-	@NotEmpty(message = "Não é permitido a inserção de motos sem Placa")
 	private String placa;
 	@NotEmpty(message = "Não é permitido a inserção de motos sem Chassi")
 	private String chassi; 

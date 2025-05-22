@@ -29,6 +29,7 @@ import com.challenge.mottu.service.AndarCachingService;
 import com.challenge.mottu.service.AndarService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/andares")
@@ -105,12 +106,12 @@ private final MottuApplication mottuApplication;
 			summary = "Inserir um novo andar",
 			tags = "Inserção de informações")
 	@PostMapping(value = "/inserir")
-	public Andar inserirAndar(@RequestBody Andar andar) {
+	public ResponseEntity<Andar> inserirAndar(@RequestBody @Valid Andar andar) {
 		
 		repA.save(andar);
 		cacheA.limparCache();
 				
-		return andar;
+		return ResponseEntity.ok(andar);
 	}
 	
 	@Operation(description = "Esta operação possibilita a atualização de um item na tabela de andares",

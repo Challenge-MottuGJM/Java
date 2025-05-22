@@ -1,6 +1,5 @@
 package com.challenge.mottu.control;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,6 +29,7 @@ import com.challenge.mottu.service.GalpaoCachingService;
 import com.challenge.mottu.service.GalpaoService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/galpoes")
@@ -106,12 +106,12 @@ public class GalpaoController {
 			summary = "Inserir um novo galpão",
 			tags = "Inserção de informações")
 	@PostMapping(value = "/inserir")
-	public Galpao inserirGalpao(@RequestBody Galpao galpao) {
+	public ResponseEntity<Galpao> inserirGalpao(@RequestBody @Valid Galpao galpao) {
 		
 		repG.save(galpao);
 		cacheG.limparCache();
 				
-		return galpao;
+		return ResponseEntity.ok(galpao);
 	}
 	
 	@Operation(description = "Esta operação possibilita a atualização de um item na tabela de galpões",

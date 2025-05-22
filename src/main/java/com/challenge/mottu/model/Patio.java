@@ -18,6 +18,7 @@ public class Patio{
 	@Schema(description = "Este atributo representa a chave primária ID", example = "1")
 	@Id
 	private Long id;
+	@NotNull(message = "Não é permitido incluir patio sem andar")
 	@ManyToOne
 	@JoinColumn(name= "ANDAR_ID")
 	private Andar andar;

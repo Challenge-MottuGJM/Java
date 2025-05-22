@@ -18,6 +18,7 @@ public class Vaga{
 	@Schema(description = "Este atributo representa a chave primária ID", example = "1")
 	@Id
 	private Long id;
+	@NotNull(message = "Não é permitido incluir vaga sem bloco")
 	@ManyToOne
 	@JoinColumn(name= "BLOCO_ID")
 	private Bloco bloco;

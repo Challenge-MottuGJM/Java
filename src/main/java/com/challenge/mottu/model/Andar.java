@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -18,6 +19,7 @@ public class Andar {
 	@Schema(description = "Este atributo representa a chave primária ID", example = "1")
 	@Id
 	private Long id;
+	@NotNull(message = "Não é permitido incluir andar sem galpao")
 	@ManyToOne
 	@JoinColumn(name= "GALPAO_ID")
 	private Galpao galpao;

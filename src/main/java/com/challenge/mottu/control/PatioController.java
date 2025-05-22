@@ -1,6 +1,5 @@
 package com.challenge.mottu.control;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,6 +29,7 @@ import com.challenge.mottu.service.PatioCachingService;
 import com.challenge.mottu.service.PatioService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/patios")
@@ -106,12 +106,12 @@ public class PatioController {
 			summary = "Inserir um novo patio",
 			tags = "Inserção de informações")
 	@PostMapping(value = "/inserir")
-	public Patio inserirPatio(@RequestBody Patio patio) {
+	public ResponseEntity<Patio> inserirPatio(@RequestBody @Valid Patio patio) {
 		
 		repP.save(patio);
 		cacheP.limparCache();
 				
-		return patio;
+		return ResponseEntity.ok(patio);
 	}
 	
 	@Operation(description = "Esta operação possibilita a atualização de um item na tabela de patios",
