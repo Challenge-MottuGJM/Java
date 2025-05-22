@@ -1,12 +1,10 @@
 package com.challenge.mottu.dto;
 
-import org.springframework.hateoas.RepresentationModel;
-
 import com.challenge.mottu.model.Bloco;
 import com.challenge.mottu.model.Vaga;
 
 
-public class VagaDTO extends RepresentationModel<VagaDTO>{
+public class VagaDTO{
 	
 	private Long id;
 	private Bloco bloco;

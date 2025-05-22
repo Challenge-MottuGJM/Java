@@ -1,11 +1,9 @@
 package com.challenge.mottu.dto;
 
-import org.springframework.hateoas.RepresentationModel;
-
 import com.challenge.mottu.model.Bloco;
 import com.challenge.mottu.model.Patio;
 
-public class BlocoDTO extends RepresentationModel<BlocoDTO>{
+public class BlocoDTO{
 
 	private Long id;
 	private String letra_bloco;

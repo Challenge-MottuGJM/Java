@@ -1,11 +1,9 @@
 package com.challenge.mottu.dto;
 
-import org.springframework.hateoas.RepresentationModel;
-
 import com.challenge.mottu.model.Moto;
 import com.challenge.mottu.model.Vaga;
 
-public class MotoDTO extends RepresentationModel<MotoDTO> {
+public class MotoDTO{
 	
 	private Long id;
 	private Vaga vaga;

@@ -1,11 +1,9 @@
 package com.challenge.mottu.dto;
 
-import org.springframework.hateoas.RepresentationModel;
-
 import com.challenge.mottu.model.Andar;
 import com.challenge.mottu.model.Patio;
 
-public class PatioDTO extends RepresentationModel<PatioDTO>{
+public class PatioDTO{
 
 	private Long id;
 	private Andar andar;

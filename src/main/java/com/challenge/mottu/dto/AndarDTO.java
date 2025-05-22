@@ -1,10 +1,8 @@
 package com.challenge.mottu.dto;
 
-import org.springframework.hateoas.RepresentationModel;
-
 import com.challenge.mottu.model.Galpao;
 
-public class AndarDTO extends RepresentationModel<AndarDTO> {
+public class AndarDTO {
 	
 	private Long id;
 	private Long numero_andar;

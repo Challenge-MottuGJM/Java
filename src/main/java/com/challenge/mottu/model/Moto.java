@@ -1,7 +1,5 @@
 package com.challenge.mottu.model;
 
-import org.springframework.hateoas.RepresentationModel;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -15,7 +13,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "MOTO")
-public class Moto extends RepresentationModel<Moto>{
+public class Moto{
 	
 	@Schema(description = "Este atributo representa a chave primária ID", example = "1")
 	@Id

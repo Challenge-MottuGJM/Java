@@ -1,10 +1,8 @@
 package com.challenge.mottu.dto;
 
-import org.springframework.hateoas.RepresentationModel;
-
 import com.challenge.mottu.model.Galpao;
 
-public class GalpaoDTO extends RepresentationModel<GalpaoDTO>{
+public class GalpaoDTO{
 	
 	private Long id;
 	private String nome_galpao;
