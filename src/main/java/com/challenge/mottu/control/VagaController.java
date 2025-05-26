@@ -123,8 +123,11 @@ private final MottuApplication mottuApplication;
 		Optional<Vaga> op = cacheV.findById(id);
 		
 		if(op.isPresent()) {
-			Vaga vaga_antigo = op.get();
-			vaga_antigo.setNumero_vaga(vaga.getNumero_vaga());
+			Vaga vaga_antiga = op.get();
+			vaga_antiga.setNumero_vaga(vaga.getNumero_vaga());
+			
+			repV.save(vaga_antiga);
+			cacheV.limparCache();
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}

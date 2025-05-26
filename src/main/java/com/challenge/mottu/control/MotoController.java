@@ -151,6 +151,9 @@ private final MottuApplication mottuApplication;
 			moto_antiga.setPlaca(moto.getPlaca());
 			moto_antiga.setStatus(moto.getStatus());
 			moto_antiga.setVaga(moto.getVaga());
+			
+			repM.save(moto_antiga);
+			cacheM.limparCache();
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}

@@ -125,6 +125,10 @@ public class BlocoController {
 		if(op.isPresent()) {
 			Bloco bloco_antigo = op.get();
 			bloco_antigo.setLetra_bloco(bloco.getLetra_bloco());
+			
+			repB.save(bloco_antigo);
+			cacheB.limparCache();
+			
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}

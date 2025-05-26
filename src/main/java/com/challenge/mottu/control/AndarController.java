@@ -125,6 +125,10 @@ private final MottuApplication mottuApplication;
 		if(op.isPresent()) {
 			Andar andar_antigo = op.get();
 			andar_antigo.setNumero_andar(andar.getNumero_andar());
+			
+			repA.save(andar_antigo);
+			cacheA.limparCache();
+			
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}

@@ -125,6 +125,10 @@ public class GalpaoController {
 		if(op.isPresent()) {
 			Galpao galpao_antigo = op.get();
 			galpao_antigo.setNome_galpao(galpao.getNome_galpao());
+			
+			repG.save(galpao_antigo);
+			cacheG.limparCache();
+			
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}

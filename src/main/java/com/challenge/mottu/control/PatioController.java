@@ -125,6 +125,9 @@ public class PatioController {
 		if(op.isPresent()) {
 			Patio patio_antigo = op.get();
 			patio_antigo.setNumero_patio(patio.getNumero_patio());
+			
+			repP.save(patio_antigo);
+			cacheP.limparCache();
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}
