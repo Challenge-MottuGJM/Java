@@ -13,6 +13,7 @@ import jakarta.persistence.Table;
 public class Cargo {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Enumerated(EnumType.STRING)
 	private EnumCargo nome;
