@@ -1,22 +1,18 @@
 package com.challenge.mottu.model;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-@Schema(description = "Esta classe irá representar a entidade Andar")
 @Data
 @Entity
 @Table(name = "ANDAR")
 public class Andar {
 	
-	@Schema(description = "Este atributo representa a chave primária ID", example = "1")
 	@Id
 	private Long id;
 	@NotNull(message = "Não é permitido incluir andar sem galpao")
