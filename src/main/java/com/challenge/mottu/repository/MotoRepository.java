@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import com.challenge.mottu.model.Moto;
 
+@Repository
 public interface MotoRepository extends JpaRepository<Moto, Long>{
 	
 	@Query("from Moto m where m.placa = :placa")
