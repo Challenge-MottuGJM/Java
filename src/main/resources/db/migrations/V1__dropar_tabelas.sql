@@ -1,0 +1,9 @@
+    drop table if exists GALPAO cascade; 
+    drop table if exists ANDAR cascade;
+    drop table if exists PATIO cascade;
+    drop table if exists BLOCO cascade;
+    drop table if exists VAGA cascade;
+    drop table if exists MOTO cascade;
+    drop table if exists CARGO cascade; 
+    drop table if exists USUARIO cascade; 
+    drop table if exists USUARIO_CARGO cascade; 
