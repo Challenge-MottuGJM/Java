@@ -1,0 +1,57 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: cabecalho('Lista de Andares')}" />
+
+  <body>
+	  
+	<div th:replace="~{fragmentos :: form-logout}" />
+	
+    <div class="container">
+		
+		<div style="display: flex; align-items: center;">
+			<b><h1> 
+				<span th:text="#{saudacao}">Olá,</span> 
+				<span th:text="${usuario.nome}">X</span>!
+			</h1></b>
+		</div>
+		
+        <div class="row">
+            <h2 th:text="#{lista_andares}">Lista de Andares</h2>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+							<th scope="col">ID</th>
+                            <th scope="col" th:text="#{andar.numero_andar}">Nome</th>
+                            <th scope="col" th:text="#{andar.galpao.nome_galpao}">Galpao</th>
+							<th scope="col">#</th>
+							<th scope="col">#</th>
+							<th scope="col">#</th>
+							<th scope="col">#</th>
+                        </tr>
+                      </thead>
+                    <tbody>
+                        <tr th:each="andar : ${andares}">
+							  <th class="col-2" scope="row" th:text="${andar.id}">A</th>
+				              <th class="col-2" th:text="${andar.numero_andar}">B</th>
+				              <td class="col-2" th:text="${andar.galpao.nome_galpao}">C</td>
+				              
+				              <td class="col-2"><a th:href="@{/andar/detalhes/{idAndar}(idAndar = ${andar.id})}">Detalhes</a></td>
+				              <td class="col-2"><a th:href="@{/andar/editar/{idAndar}(idAndar = ${andar.id})}">Editar</a></td>
+				              <td class="col-2"><a th:href="@{/andar/remover/{idAndar}(idAndar = ${andar.id})}">Remover</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <a href="/andar/novo">Cadastrar Andar</a>
+        </div>
+    </div>
+    
+    <script th:replace="~{fragmentos :: script-js}" />
+
+    </body>
+</html>

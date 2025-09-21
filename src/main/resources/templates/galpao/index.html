@@ -1,0 +1,56 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: cabecalho('Lista de Galpões')}" />
+
+  <body>
+	  
+	<div th:replace="~{fragmentos :: form-logout}" />
+	
+    <div class="container">
+		
+		<div style="display: flex; align-items: center;">
+			<b><h1> 
+				<span th:text="#{saudacao}">Olá,</span> 
+				<span th:text="${usuario.nome}">X</span>!
+			</h1></b>
+		</div>
+		
+        <div class="row">
+            <h2 th:text="#{lista_galpoes}">Lista de Galpões</h2>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+							<th scope="col">ID</th>
+                            <th scope="col" th:text="#{galpao.nome_galpao}">Nome do galpão</th>
+                            <th scope="col">#</th>
+							<th scope="col">#</th>
+							<th scope="col">#</th>
+							<th scope="col">#</th>
+							<th scope="col">#</th>
+                        </tr>
+                      </thead>
+                    <tbody>
+                        <tr th:each="galpao : ${galpoes}">
+							  <th class="col-2" scope="row" th:text="${galpao.id}">A</th>
+				              <th class="col-2" th:text="${galpao.nome_galpao}">B</th>
+								              
+				              <td class="col-2"><a th:href="@{/galpao/detalhes/{idGalpao}(idGalpao = ${galpao.id})}">Detalhes</a></td>
+				              <td class="col-2"><a th:href="@{/galpao/editar/{idGalpao}(idGalpao = ${galpao.id})}">Editar</a></td>
+				              <td class="col-2"><a th:href="@{/galpao/remover/{idGalpao}(idGalpao = ${galpao.id})}">Remover</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <a href="/galpao/novo">Cadastrar Galpão</a>
+        </div>
+    </div>
+    
+    <script th:replace="~{fragmentos :: script-js}" />
+
+    </body>
+</html>

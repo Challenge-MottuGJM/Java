@@ -1,0 +1,57 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: cabecalho('Lista de Vagas')}" />
+
+  <body>
+	  
+	<div th:replace="~{fragmentos :: form-logout}" />
+	
+    <div class="container">
+		
+		<div style="display: flex; align-items: center;">
+			<b><h1> 
+				<span th:text="#{saudacao}">Olá,</span> 
+				<span th:text="${usuario.nome}">X</span>!
+			</h1></b>
+		</div>
+		
+        <div class="row">
+            <h2 th:text="#{lista_vagas}">Lista de Vagas</h2>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+							<th scope="col">ID</th>
+                            <th scope="col" th:text="#{vagas.numero_vaga}">Número da vaga</th>
+                            <th scope="col" th:text="#{vagas.bloco.letra_bloco}">Bloco</th>
+							<th scope="col">#</th>
+							<th scope="col">#</th>
+							<th scope="col">#</th>
+							<th scope="col">#</th>
+                        </tr>
+                      </thead>
+                    <tbody>
+                        <tr th:each="vaga : ${vagas}">
+							  <th class="col-2" scope="row" th:text="${vaga.id}">A</th>
+				              <th class="col-2" th:text="${vaga.numero_vaga}">B</th>
+				              <td class="col-2" th:text="${vaga.bloco.letra_bloco}">C</td>
+				              
+				              <td class="col-2"><a th:href="@{/vaga/detalhes/{idVaga}(idVaga = ${vaga.id})}">Detalhes</a></td>
+				              <td class="col-2"><a th:href="@{/vaga/editar/{idVaga}(idVaga = ${vaga.id})}">Editar</a></td>
+				              <td class="col-2"><a th:href="@{/vaga/remover/{idVaga}(idVaga = ${vaga.id})}">Remover</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <a href="/vaga/novo">Cadastrar Vaga</a>
+        </div>
+    </div>
+    
+    <script th:replace="~{fragmentos :: script-js}" />
+
+    </body>
+</html>

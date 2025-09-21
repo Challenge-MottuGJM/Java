@@ -1,0 +1,62 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: cabecalho('Lista de Motos')}" />
+
+  <body>
+	  
+	<div th:replace="~{fragmentos :: form-logout}" />
+	
+    <div class="container">
+		
+		<div style="display: flex; align-items: center;">
+			<b><h1> 
+				<span th:text="#{saudacao}">Olá,</span> 
+				<span th:text="${usuario.nome}">X</span>!
+			</h1></b>
+		</div>
+		
+        <div class="row">
+            <h2 th:text="#{lista_motos}">Lista de Motos</h2>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+							<th scope="col">ID</th>
+                            <th scope="col" th:text="#{moto.status}">Status</th>
+                            <th scope="col" th:text="#{moto.modelo}">Modelo</th>
+							<th scope="col" th:text="#{moto.marca}">Marca</th>
+							<th scope="col" th:text="#{moto.placa}">Placa</th>
+							<th scope="col" th:text="#{moto.chassi}">Chassi</th>
+							<th scope="col" th:text="#{moto.vaga.numero_vaga}">Número da vaga</th>						
+                        </tr>
+                      </thead>
+                    <tbody>
+                        <tr th:each="moto : ${motos}">
+							  <th class="col-2" scope="row" th:text="${moto.id}">A</th>
+							  <th class="col-2" scope="row" th:text="${moto.status}">B</th>
+							  <th class="col-2" scope="row" th:text="${moto.modelo}">C</th>
+							  <th class="col-2" scope="row" th:text="${moto.marca}">D</th>
+							  <th class="col-2" scope="row" th:text="${moto.placa}">E</th>
+							  <th class="col-2" scope="row" th:text="${moto.chassi}">F</th>
+							  <th class="col-2" scope="row" th:text="${moto.vaga.numero_vaga}">G</th>
+				              
+				              
+				              <td class="col-2"><a th:href="@{/moto/detalhes/{idMoto}(idMoto = ${moto.id})}">Detalhes</a></td>
+				              <td class="col-2"><a th:href="@{/moto/editar/{idMoto}(idMoto = ${moto.id})}">Editar</a></td>
+				              <td class="col-2"><a th:href="@{/moto/remover/{idMoto}(idMoto = ${moto.id})}">Remover</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <a href="/moto/novo">Cadastrar Moto</a>
+        </div>
+    </div>
+    
+    <script th:replace="~{fragmentos :: script-js}" />
+
+    </body>
+</html>
