@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.challenge.mottu.model.Usuario;
 import com.challenge.mottu.repository.UsuarioRepository;
 
+@Service
 public class UsuarioUserDetailsService implements UserDetailsService {
 	
 	@Autowired

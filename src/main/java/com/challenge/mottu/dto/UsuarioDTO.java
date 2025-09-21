@@ -1,36 +1,21 @@
-package com.challenge.mottu.model;
+package com.challenge.mottu.dto;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import com.challenge.mottu.model.Cargo;
 
-@Entity
-@Table(name = "USUARIO")
-public class Usuario {
+public class UsuarioDTO {
 	
-	@Id
 	private Long id;
 	private String nome;
 	private String username;
 	private String senha;
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "USUARIO_CARGO", 
-	joinColumns = @JoinColumn(name = "USUARIO_ID"), 
-	inverseJoinColumns = @JoinColumn(name = "CARGO_ID") )
 	private Set<Cargo> cargo = new HashSet<Cargo>();
 
-	public Usuario() {}
+	public UsuarioDTO() {}
 
-	public Usuario(Long id, String nome, String username, String senha, Set<Cargo> cargo) {
+	public UsuarioDTO(Long id, String nome, String username, String senha, Set<Cargo> cargo) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -78,6 +63,4 @@ public class Usuario {
 	public void setCargo(Set<Cargo> cargo) {
 		this.cargo = cargo;
 	}
-	
-	
 }
