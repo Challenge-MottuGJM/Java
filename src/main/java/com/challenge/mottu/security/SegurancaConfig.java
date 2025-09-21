@@ -6,11 +6,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SegurancaConfig {
@@ -18,7 +13,7 @@ public class SegurancaConfig {
 	@Bean
 	public SecurityFilterChain filtrar(HttpSecurity http) throws Exception {
 		
-		http.authorizeHttpRequests((request) -> request.requestMatchers("").hasAuthority("ADMIN").				
+		http.authorizeHttpRequests((request) -> request.requestMatchers("/testes/teste").hasAuthority("ADMINISTRADOR").				
 				anyRequest().authenticated())
 			.formLogin( (login) -> login.loginPage("/login").defaultSuccessUrl("/index", true)
 					.failureUrl("/login?falha=true").permitAll())
