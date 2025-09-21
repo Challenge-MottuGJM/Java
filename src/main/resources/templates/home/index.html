@@ -1,0 +1,78 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: cabecalho('Menu do Sistema')}" />
+
+<body>
+
+  <div th:replace="~{fragmentos :: form-logout}" />
+
+  <div class="container">
+
+    <div style="display: flex; align-items: center;">
+      <b><h1>
+        <span th:text="#{saudacao}">Olá,</span>
+        <span th:text="${usuario.nome}">X</span>!
+      </h1></b>
+    </div>
+
+    <div class="row">
+      <h2>Menu do Sistema</h2>
+    </div>
+
+    <!-- Grade de opções -->
+    <div class="row" style="gap: 16px; margin-top: 12px;">
+      <!-- Galpão -->
+      <div class="col-3 card" style="padding: 16px; min-width: 220px;">
+        <h3>Galpão</h3>
+        <p>Gerenciar galpões.</p>
+        <a class="btn btn-primary" th:href="@{/galpao/index}">Abrir</a>
+      </div>
+
+      <!-- Andar -->
+      <div class="col-3 card" style="padding: 16px; min-width: 220px;">
+        <h3>Andar</h3>
+        <p>Gerenciar andares.</p>
+        <a class="btn btn-primary" th:href="@{/andar/index}">Abrir</a>
+      </div>
+
+      <!-- Pátio -->
+      <div class="col-3 card" style="padding: 16px; min-width: 220px;">
+        <h3>Pátio</h3>
+        <p>Gerenciar pátios.</p>
+        <a class="btn btn-primary" th:href="@{/patio/index}">Abrir</a>
+      </div>
+
+      <!-- Bloco -->
+      <div class="col-3 card" style="padding: 16px; min-width: 220px;">
+        <h3>Bloco</h3>
+        <p>Gerenciar blocos.</p>
+        <a class="btn btn-primary" th:href="@{/bloco/index}">Abrir</a>
+      </div>
+
+      <!-- Vaga -->
+      <div class="col-3 card" style="padding: 16px; min-width: 220px;">
+        <h3>Vaga</h3>
+        <p>Gerenciar vagas.</p>
+        <a class="btn btn-primary" th:href="@{/vaga/index}">Abrir</a>
+      </div>
+
+      <!-- Moto -->
+      <div class="col-3 card" style="padding: 16px; min-width: 220px;">
+        <h3>Moto</h3>
+        <p>Gerenciar motos.</p>
+        <a class="btn btn-primary" th:href="@{/moto/index}">Abrir</a>
+      </div>
+
+      <!-- Usuário -->
+      <div class="col-3 card" style="padding: 16px; min-width: 220px;">
+        <h3>Usuário</h3>
+        <p>Gerenciar usuários.</p>
+        <a class="btn btn-primary" th:href="@{/usuario/index}">Abrir</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script th:replace="~{fragmentos :: script-js}"></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: cabecalho('Cadastrar Andar')}" />
+  <body>
+	  
+	  <div th:replace="~{fragmentos :: form-logout}" />
+	  
+    <div class="container">
+        <div class="row">
+            <h1>Cadastrar Andar</h1>
+        </div>
+        <div class="row">
+            
+            <form th:object="${andar}" action="/insere_andar" method="post">
+            	
+            	Número do andar: <input class="form-control" type="number" th:field="*{numero_andar}"><br>
+				Galpão:
+				            	<select class="form-select" th:name="'galpao_id'">
+				            		<option th:each="galpao : ${lista_galpoes}" th:value="${galpao.id}" th:text="${galpao.nome_galpao}" />
+				            	</select>
+								
+            	<button type="submit">Cadastrar Andar</button>
+            </form>
+            
+        </div>
+        <div class="row">
+            <a href="/index">Voltar à página inicial</a>
+        </div>
+    </div>
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+  </body>
+</html>
