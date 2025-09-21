@@ -28,7 +28,6 @@ import com.challenge.mottu.repository.MotoRepository;
 import com.challenge.mottu.service.MotoCachingService;
 import com.challenge.mottu.service.MotoService;
 
-import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 @RestController
@@ -74,9 +73,6 @@ private final MottuApplication mottuApplication;
 		
 	}
 	
-	@Operation(description = "Retorna lista de MotoDTO de forma paginada", 
-			summary = "Retorna páginas de MotoDTO",
-			tags = "Retorno de informação")
 	@GetMapping(value = "/paginadas")
 	public ResponseEntity<Page<MotoDTO>> retornarMotosPaginadas(
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -88,29 +84,20 @@ private final MottuApplication mottuApplication;
 		
 		return ResponseEntity.ok(motos_paginadas);
 	}
-	
-	@Operation(description = "Retorna todos as motos",
-			summary = "Retorna todos as motos",
-			tags = "Retorno de informação")
+
 	@GetMapping(value = "/todas")
 	public List<MotoDTO> retornaMotosGalpoes(){
 		
 		return repM.findAll().stream().map(mapperInterface::toDTO).collect(Collectors.toList());
 	}
-	
-	@Operation(description = "Retorna todos as motos existentes no Cache",
-			summary = "Retorna todos as motos utilizando Caching",
-			tags = "Retorno de informação")
+
 	@GetMapping(value = "/todas_cacheable")
 	public List<MotoDTO> retonaTodasMotosCacheable(){
 		
 		return cacheM.findAll().stream().map(mapperInterface::toDTO).collect(Collectors.toList());
 		
 	}
-	
-	@Operation(description = "Retorna uma moto com base em um ID",
-			summary = "Retorna uma moto com base em um ID",
-			tags = "Retorno de informação")
+
 	@GetMapping(value = "/{id}")
 	public MotoDTO retornaMotoPorId(@PathVariable Long id) {
 		
@@ -122,10 +109,7 @@ private final MottuApplication mottuApplication;
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}
 	}
-	
-	@Operation(description = "Esta operação possibilita a inserção de um novo item na tabela de motos",
-			summary = "Inserir uma nova moto",
-			tags = "Inserção de informações")
+
 	@PostMapping(value = "/inserir")
 	public ResponseEntity<Moto> inserirMoto(@RequestBody @Valid Moto moto) {
 		
@@ -134,10 +118,7 @@ private final MottuApplication mottuApplication;
 				
 		return ResponseEntity.ok(moto);
 	}
-	
-	@Operation(description = "Esta operação possibilita a atualização de um item na tabela de motos",
-			summary = "Atualiza uma nova moto",
-			tags = "Inserção de informações")
+
 	@PutMapping(value = "/atualizar/{id}")
 	public Moto atualizarMoto(@PathVariable Long id, @RequestBody Moto moto) {
 		
@@ -160,10 +141,7 @@ private final MottuApplication mottuApplication;
 		
 		return moto;
 	}
-	
-	@Operation(description = "Esta operação possibilita a exclusão de um item na tabela de motos",
-			summary = "Exclui uma nova moto",
-			tags = "Remoção de informações")
+
 	@DeleteMapping(value = "/excluir/{id}")
 	public Moto excluirMoto(@PathVariable Long id) {
 		

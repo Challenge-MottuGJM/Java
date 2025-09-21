@@ -28,7 +28,6 @@ import com.challenge.mottu.repository.BlocoRepository;
 import com.challenge.mottu.service.BlocoCachingService;
 import com.challenge.mottu.service.BlocoService;
 
-import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 @RestController
@@ -53,9 +52,6 @@ public class BlocoController {
 		this.mottuApplication = mottuApplication;
 	}
 	
-	@Operation(description = "Retorna lista de BlocoDTO de forma paginada", 
-			summary = "Retorna páginas de BlocoDTO",
-			tags = "Retorno de informação")
 	@GetMapping(value = "/paginadas")
 	public ResponseEntity<Page<BlocoDTO>> retornarBlocosPaginados(
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -69,27 +65,18 @@ public class BlocoController {
 	}
 	
 	
-	@Operation(description = "Retorna todos os blocos",
-			summary = "Retorna todos os blocos",
-			tags = "Retorno de informação")
 	@GetMapping(value = "/todas")
 	public List<BlocoDTO> retornaTodosBlocos(){
 				
 		return repB.findAll().stream().map(mapperInterface::toDTO).collect(Collectors.toList());
 	}
 	
-	@Operation(description = "Retorna todos os blocos existentes no Cache",
-			summary = "Retorna todos os blocos utilizando Caching",
-			tags = "Retorno de informação")
 	@GetMapping(value = "/todas_cacheable")
 	public List<BlocoDTO> retonaTodosBlocosCacheable(){
 		
 		return cacheB.findAll().stream().map(mapperInterface::toDTO).collect(Collectors.toList());
 	}
 	
-	@Operation(description = "Retorna um bloco com base em um ID",
-			summary = "Retorna um bloco com base em um ID",
-			tags = "Retorno de informação")
 	@GetMapping(value = "/{id}")
 	public BlocoDTO retornaBlocoPorId(@PathVariable Long id) {
 		
@@ -101,10 +88,7 @@ public class BlocoController {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}
 	}
-	
-	@Operation(description = "Esta operação possibilita a inserção de um novo item na tabela de blocos",
-			summary = "Inserir um novo bloco",
-			tags = "Inserção de informações")
+
 	@PostMapping(value = "/inserir")
 	public ResponseEntity<Bloco> inserirBloco(@RequestBody @Valid Bloco bloco) {
 		
@@ -114,9 +98,6 @@ public class BlocoController {
 		return ResponseEntity.ok(bloco);
 	}
 	
-	@Operation(description = "Esta operação possibilita a atualização de um item na tabela de blocos",
-			summary = "Atualiza um novo bloco",
-			tags = "Inserção de informações")
 	@PutMapping(value = "/atualizar/{id}")
 	public Bloco atualizarBloco(@PathVariable Long id, @RequestBody Bloco bloco) {
 		
@@ -136,9 +117,6 @@ public class BlocoController {
 		return bloco;
 	}
 	
-	@Operation(description = "Esta operação possibilita a exclusão de um item na tabela de blocos",
-			summary = "Exclui um novo bloco",
-			tags = "Remoção de informações")
 	@DeleteMapping(value = "/excluir/{id}")
 	public Bloco excluirBloco(@PathVariable Long id) {
 		

@@ -28,7 +28,6 @@ import com.challenge.mottu.repository.AndarRepository;
 import com.challenge.mottu.service.AndarCachingService;
 import com.challenge.mottu.service.AndarService;
 
-import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 @RestController
@@ -52,10 +51,7 @@ private final MottuApplication mottuApplication;
 	AndarController (MottuApplication mottuApplication) {
 		this.mottuApplication = mottuApplication;
 	}
-	
-	@Operation(description = "Retorna lista de AndarDTO de forma paginada", 
-			summary = "Retorna páginas de AndarDTO",
-			tags = "Retorno de informação")
+
 	@GetMapping(value = "/paginadas")
 	public ResponseEntity<Page<AndarDTO>> retornarAndaresPaginados(
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -68,18 +64,12 @@ private final MottuApplication mottuApplication;
 		return ResponseEntity.ok(andares_paginados);
 	}
 	
-	@Operation(description = "Retorna todos os andares",
-			summary = "Retorna todos os andares",
-			tags = "Retorno de informação")
 	@GetMapping(value = "/todas")
 	public List<AndarDTO> retornaTodosGalpoes(){
 		
 		return repA.findAll().stream().map(mapperInterface::toDTO).collect(Collectors.toList());
 	}
 	
-	@Operation(description = "Retorna todos os andares existentes no Cache",
-			summary = "Retorna todos os andares utilizando Caching",
-			tags = "Retorno de informação")
 	@GetMapping(value = "/todas_cacheable")
 	public List<AndarDTO> retonaTodosAndaresCacheable(){
 		
@@ -87,9 +77,6 @@ private final MottuApplication mottuApplication;
 		
 	}
 	
-	@Operation(description = "Retorna um andar com base em um ID",
-			summary = "Retorna um andar com base em um ID",
-			tags = "Retorno de informação")
 	@GetMapping(value = "/{id}")
 	public AndarDTO retornaAndarPorId(@PathVariable Long id) {
 		
@@ -102,9 +89,6 @@ private final MottuApplication mottuApplication;
 		}
 	}
 	
-	@Operation(description = "Esta operação possibilita a inserção de um novo item na tabela de andares",
-			summary = "Inserir um novo andar",
-			tags = "Inserção de informações")
 	@PostMapping(value = "/inserir")
 	public ResponseEntity<Andar> inserirAndar(@RequestBody @Valid Andar andar) {
 		
@@ -114,9 +98,6 @@ private final MottuApplication mottuApplication;
 		return ResponseEntity.ok(andar);
 	}
 	
-	@Operation(description = "Esta operação possibilita a atualização de um item na tabela de andares",
-			summary = "Atualiza um novo andar",
-			tags = "Inserção de informações")
 	@PutMapping(value = "/atualizar/{id}")
 	public Andar atualizarAndar(@PathVariable Long id, @RequestBody Andar andar) {
 		
@@ -136,9 +117,6 @@ private final MottuApplication mottuApplication;
 		return andar;
 	}
 	
-	@Operation(description = "Esta operação possibilita a exclusão de um item na tabela de andares",
-			summary = "Exclui um novo andar",
-			tags = "Remoção de informações")
 	@DeleteMapping(value = "/excluir/{id}")
 	public Andar excluirAndar(@PathVariable Long id) {
 		

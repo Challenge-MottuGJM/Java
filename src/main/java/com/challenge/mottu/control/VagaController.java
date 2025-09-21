@@ -28,7 +28,6 @@ import com.challenge.mottu.repository.VagaRepository;
 import com.challenge.mottu.service.VagaCachingService;
 import com.challenge.mottu.service.VagaService;
 
-import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 @RestController
@@ -53,9 +52,6 @@ private final MottuApplication mottuApplication;
 		this.mottuApplication = mottuApplication;
 	}
 	
-	@Operation(description = "Retorna lista de VagaDTO de forma paginada", 
-			summary = "Retorna páginas de VagaDTO",
-			tags = "Retorno de informação")
 	@GetMapping(value = "/paginadas")
 	public ResponseEntity<Page<VagaDTO>> retornarVagasPaginados(
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -68,28 +64,18 @@ private final MottuApplication mottuApplication;
 		return ResponseEntity.ok(vagas_paginadas);
 	}
 	
-	
-	@Operation(description = "Retorna todos os vagas",
-			summary = "Retorna todos os vagas",
-			tags = "Retorno de informação")
 	@GetMapping(value = "/todas")
 	public List<VagaDTO> retornaTodosVagas(){
 		
 		return repV.findAll().stream().map(mapperInterface::toDTO).collect(Collectors.toList());
 	}
-	
-	@Operation(description = "Retorna todos os vagas existentes no Cache",
-			summary = "Retorna todos os vagas utilizando Caching",
-			tags = "Retorno de informação")
+
 	@GetMapping(value = "/todas_cacheable")
 	public List<VagaDTO> retonaTodosVagasCacheable(){
 		
 		return cacheV.findAll().stream().map(mapperInterface::toDTO).collect(Collectors.toList());
 	}
 	
-	@Operation(description = "Retorna um vaga com base em um ID",
-			summary = "Retorna um vaga com base em um ID",
-			tags = "Retorno de informação")
 	@GetMapping(value = "/{id}")
 	public VagaDTO retornaVagaPorId(@PathVariable Long id) {
 		
@@ -102,9 +88,6 @@ private final MottuApplication mottuApplication;
 		}
 	}
 	
-	@Operation(description = "Esta operação possibilita a inserção de um novo item na tabela de vagas",
-			summary = "Inserir um novo vaga",
-			tags = "Inserção de informações")
 	@PostMapping(value = "/inserir")
 	public ResponseEntity<Vaga> inserirVaga(@RequestBody @Valid Vaga vaga) {
 		
@@ -114,9 +97,6 @@ private final MottuApplication mottuApplication;
 		return ResponseEntity.ok(vaga);
 	}
 	
-	@Operation(description = "Esta operação possibilita a atualização de um item na tabela de vagas",
-			summary = "Atualiza um novo vaga",
-			tags = "Inserção de informações")
 	@PutMapping(value = "/atualizar/{id}")
 	public Vaga atualizarVaga(@PathVariable Long id, @RequestBody Vaga vaga) {
 		
@@ -134,10 +114,7 @@ private final MottuApplication mottuApplication;
 		
 		return vaga;
 	}
-	
-	@Operation(description = "Esta operação possibilita a exclusão de um item na tabela de vagas",
-			summary = "Exclui um novo vaga",
-			tags = "Remoção de informações")
+
 	@DeleteMapping(value = "/excluir/{id}")
 	public Vaga excluirVaga(@PathVariable Long id) {
 		

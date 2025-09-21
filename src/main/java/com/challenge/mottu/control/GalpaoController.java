@@ -28,7 +28,6 @@ import com.challenge.mottu.repository.GalpaoRepository;
 import com.challenge.mottu.service.GalpaoCachingService;
 import com.challenge.mottu.service.GalpaoService;
 
-import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 @RestController
@@ -53,9 +52,6 @@ public class GalpaoController {
 		this.mottuApplication = mottuApplication;
 	}
 	
-	@Operation(description = "Retorna lista de GalpaoDTO de forma paginada", 
-			summary = "Retorna páginas de GalpaoDTO",
-			tags = "Retorno de informação")
 	@GetMapping(value = "/paginadas")
 	public ResponseEntity<Page<GalpaoDTO>> retornarGalpoesPaginados(
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -68,28 +64,18 @@ public class GalpaoController {
 		return ResponseEntity.ok(galpoes_paginados);
 	}
 	
-	
-	@Operation(description = "Retorna todos os galpões",
-			summary = "Retorna todos os Galpões",
-			tags = "Retorno de informação")
 	@GetMapping(value = "/todas")
 	public List<GalpaoDTO> retornaTodosGalpoes(){
 		
 		return repG.findAll().stream().map(mapperInterface::toDTO).collect(Collectors.toList());
 	}
-	
-	@Operation(description = "Retorna todos os galpões existentes no Cache",
-			summary = "Retorna todos os Galpões utilizando Caching",
-			tags = "Retorno de informação")
+
 	@GetMapping(value = "/todas_cacheable")
 	public List<GalpaoDTO> retonaTodosGalpoesCacheable(){
 		
 		return cacheG.findAll().stream().map(mapperInterface::toDTO).collect(Collectors.toList());
 	}
 	
-	@Operation(description = "Retorna um galpão com base em um ID",
-			summary = "Retorna um galpão com base em um ID",
-			tags = "Retorno de informação")
 	@GetMapping(value = "/{id}")
 	public GalpaoDTO retornaGalpaoPorId(@PathVariable Long id) {
 		
@@ -102,9 +88,6 @@ public class GalpaoController {
 		}
 	}
 	
-	@Operation(description = "Esta operação possibilita a inserção de um novo item na tabela de galpões",
-			summary = "Inserir um novo galpão",
-			tags = "Inserção de informações")
 	@PostMapping(value = "/inserir")
 	public ResponseEntity<Galpao> inserirGalpao(@RequestBody @Valid Galpao galpao) {
 		
@@ -114,9 +97,6 @@ public class GalpaoController {
 		return ResponseEntity.ok(galpao);
 	}
 	
-	@Operation(description = "Esta operação possibilita a atualização de um item na tabela de galpões",
-			summary = "Atualiza um novo galpão",
-			tags = "Inserção de informações")
 	@PutMapping(value = "/atualizar/{id}")
 	public Galpao atualizarGalpao(@PathVariable Long id, @RequestBody Galpao galpao) {
 		
@@ -135,10 +115,7 @@ public class GalpaoController {
 		
 		return galpao;
 	}
-	
-	@Operation(description = "Esta operação possibilita a exclusão de um item na tabela de galpões",
-			summary = "Exclui um novo galpão",
-			tags = "Remoção de informações")
+
 	@DeleteMapping(value = "/excluir/{id}")
 	public Galpao excluirGalpao(@PathVariable Long id) {
 		
