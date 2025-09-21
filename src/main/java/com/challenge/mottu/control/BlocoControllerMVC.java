@@ -1,16 +1,23 @@
 package com.challenge.mottu.control;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.challenge.mottu.model.Andar;
 import com.challenge.mottu.model.Bloco;
+import com.challenge.mottu.model.Usuario;
 import com.challenge.mottu.repository.BlocoRepository;
+import com.challenge.mottu.repository.PatioRepository;
+import com.challenge.mottu.repository.UsuarioRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -21,13 +28,40 @@ public class BlocoControllerMVC {
 	@Autowired
 	private BlocoRepository repB;
 	
+	@Autowired
+	private UsuarioRepository repU;
+	
+	@Autowired
+	private PatioRepository repP;
+	
+	@GetMapping("/bloco/index")
+	public ModelAndView popularIndex() {
+
+		ModelAndView mv = new ModelAndView("/bloco/index");
+
+		List<Bloco> blocos = repB.findAll();
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		Optional<Usuario> op = repU.findByUsername(auth.getName());
+		
+		if(op.isPresent()) {
+			mv.addObject("usuario", op.get());
+		}
+
+		mv.addObject("blocos", blocos);
+		mv.addObject("lista_patios", repP.findAll());
+
+		return mv;
+	}
+	
 	@GetMapping("/bloco/novo")
 	public ModelAndView retornarCadBloco() {
 
 		ModelAndView mv = new ModelAndView("/bloco/novo");
 
 		mv.addObject("bloco", new Bloco());
-		mv.addObject("lista_blocos", repB.findAll());
+		mv.addObject("lista_patios", repP.findAll());
 
 		return mv;
 	}

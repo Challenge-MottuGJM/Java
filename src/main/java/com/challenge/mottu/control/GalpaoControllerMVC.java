@@ -1,16 +1,22 @@
 package com.challenge.mottu.control;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.challenge.mottu.model.Andar;
 import com.challenge.mottu.model.Galpao;
+import com.challenge.mottu.model.Usuario;
 import com.challenge.mottu.repository.GalpaoRepository;
+import com.challenge.mottu.repository.UsuarioRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -21,6 +27,29 @@ public class GalpaoControllerMVC {
 	
 	@Autowired
 	private GalpaoRepository repG;
+	
+	@Autowired
+	private UsuarioRepository repU;
+	
+	@GetMapping("/galpao/index")
+	public ModelAndView popularIndex() {
+
+		ModelAndView mv = new ModelAndView("/galpao/index");
+
+		List<Galpao> galpoes = repG.findAll();
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		Optional<Usuario> op = repU.findByUsername(auth.getName());
+		
+		if(op.isPresent()) {
+			mv.addObject("usuario", op.get());
+		}
+
+		mv.addObject("galpoes", galpoes);
+
+		return mv;
+	}
 	
 	@GetMapping("/galpao/novo")
 	public ModelAndView retornarCadGalpao() {

@@ -1,15 +1,21 @@
 package com.challenge.mottu.control;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.challenge.mottu.model.Usuario;
 import com.challenge.mottu.model.Vaga;
+import com.challenge.mottu.repository.BlocoRepository;
+import com.challenge.mottu.repository.UsuarioRepository;
 import com.challenge.mottu.repository.VagaRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,6 +26,33 @@ public class VagaControllerMVC {
 
 	@Autowired
 	private VagaRepository repV;
+	
+	@Autowired
+	private UsuarioRepository repU;
+	
+	@Autowired
+	private BlocoRepository repB;
+	
+	@GetMapping("/vaga/index")
+	public ModelAndView popularIndex() {
+
+		ModelAndView mv = new ModelAndView("/vaga/index");
+
+		List<Vaga> vagas = repV.findAll();
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		Optional<Usuario> op = repU.findByUsername(auth.getName());
+		
+		if(op.isPresent()) {
+			mv.addObject("usuario", op.get());
+		}
+
+		mv.addObject("vagas", vagas);
+		mv.addObject("lista_blocos", repB.findAll());
+
+		return mv;
+	}
 	
 	@GetMapping("/vaga/novo")
 	public ModelAndView retornarCadVaga() {
