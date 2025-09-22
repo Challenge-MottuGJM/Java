@@ -12,40 +12,32 @@ public class SegurancaConfig {
 	
 	@Bean
 	public SecurityFilterChain filtrar(HttpSecurity http) throws Exception {
-		
-		http.authorizeHttpRequests((request) -> 
-		request.requestMatchers("/usuario/novo",
-								"/usuario/editar/{id}", 
-								"/usuario/remover/{id}",
-								"/andar/novo",
-								"/andar/editar/{id}",
-								"/andar/remover/{id}",
-								"/bloco/novo",
-								"/bloco/editar/{id}",
-								"/bloco/remover/{id}",
-								"/galpao/novo",
-								"/galpao/editar/{id}",
-								"/galpao/remover/{id}",
-								"/patio/novo",
-								"/patio/editar/{id}",
-								"/patio/remover/{id}",
-								"/vaga/novo",
-								"/vaga/editar/{id}",
-								"/vaga/remover/{id}",
-								"/moto/novo",
-								"/moto/editar/{id}",
-								"/moto/remover/{id}"
-								).hasAuthority("ADMINISTRADOR").				
-				anyRequest().authenticated())
-			.formLogin( (login) -> login.loginPage("/login").defaultSuccessUrl("/index", true)
-					.failureUrl("/login?falha=true").permitAll())
-			.logout( (logout) -> logout.logoutUrl("/logout").logoutSuccessUrl("/login?logout=true")
-					.permitAll())
-			.exceptionHandling((exception) -> 
-			exception.accessDeniedHandler((request,response,AccessDeniedException) -> 
-			{response.sendRedirect("/acesso_negado");}) );
-		
-		return http.build();
+
+	    http.authorizeHttpRequests((request) ->
+
+	        request.requestMatchers("/usuario/**")
+	            .hasAuthority("ADMINISTRADOR")
+	        .requestMatchers("/vaga/**", "/moto/**")
+	            .hasAnyAuthority("ADMINISTRADOR", "SUPERVISOR", "OPERADOR")
+	        .requestMatchers("/andar/**", "/bloco/**", "/galpao/**", "/patio/**")
+	            .hasAnyAuthority("ADMINISTRADOR", "SUPERVISOR")
+	        .anyRequest().authenticated())
+	    	.formLogin((login) -> login
+	        .loginPage("/login")
+	        .defaultSuccessUrl("/index", true)
+	        .failureUrl("/login?falha=true")
+	        .permitAll())
+	    	.logout((logout) -> logout
+	        .logoutUrl("/logout")
+	        .logoutSuccessUrl("/login?logout=true")
+	        .permitAll())
+	    	.exceptionHandling((exception) ->
+	        	exception.accessDeniedHandler((request, response, ex) -> {
+	        		response.sendRedirect("/acesso_negado");
+	        })
+	    );
+
+	    return http.build();
 	}
 	
 	@Bean

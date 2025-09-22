@@ -36,13 +36,11 @@ public class UsuarioControllerMVC {
 	@Autowired
 	private UsuarioRepository repU;
 
-	// Tela login
 	@GetMapping("/login")
 	public ModelAndView logar() {
 		return new ModelAndView("/login");
 	}
 	
-	// Rota inicial Menu Principal
 	@GetMapping("/index")
 	public ModelAndView popularIndexMenuPrincipal() {
 
@@ -57,6 +55,11 @@ public class UsuarioControllerMVC {
 		}
 
 		return mv;
+	}
+	
+	@GetMapping("/acesso_negado")
+	public ModelAndView acessoNegado() {
+	    return new ModelAndView("acesso_negado");
 	}
 	
 	@GetMapping("/usuario/index")
@@ -79,7 +82,6 @@ public class UsuarioControllerMVC {
 		return mv;
 	}
 	
-	// Rota para cadastro
 	@GetMapping("/usuario/novo")
 	public ModelAndView retornarCadUsuario() {
 
@@ -91,7 +93,6 @@ public class UsuarioControllerMVC {
 		return mv;
 	}
 	
-	// Método para cadastro
 	@PostMapping("/insere_usuario")
 	public ModelAndView inserirUsuario(Usuario usuario, @RequestParam(name = "cargo_id") Long cargo_id) {
 
@@ -116,7 +117,6 @@ public class UsuarioControllerMVC {
 		return new ModelAndView("redirect:/index");
 	}
 	
-	// Rota para detalhes
 	@GetMapping("/usuario/detalhes/{id}")
 	public ModelAndView exibirDetalhesUsuario(HttpServletRequest request, @PathVariable Long id) {
 		
@@ -134,7 +134,6 @@ public class UsuarioControllerMVC {
 		}
 	}
 	
-	// Rota para edição
 	@GetMapping("/usuario/editar/{id}")
 	public ModelAndView exibirPaginaEdicao(@PathVariable Long id){
 		
@@ -152,7 +151,6 @@ public class UsuarioControllerMVC {
 		}
 	}
 	
-	// Método para edição
 	@PostMapping("/atualizar_usuario/{id}")
 	public ModelAndView atualizarUsuario(@PathVariable Long id, @Valid Usuario usuario, BindingResult bd) {
 		
@@ -185,7 +183,6 @@ public class UsuarioControllerMVC {
 		}
 	}
 	
-	// Método para deletar
 	@GetMapping("/usuario/remover/{id}")
 	public ModelAndView removerUsuario(@PathVariable Long id) {
 		
