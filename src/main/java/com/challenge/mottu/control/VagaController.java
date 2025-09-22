@@ -31,7 +31,7 @@ import com.challenge.mottu.service.VagaService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping(value = "/vagas")
+@RequestMapping(value = "/api/vagas")
 public class VagaController {
 
 private final MottuApplication mottuApplication;

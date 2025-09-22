@@ -31,7 +31,7 @@ import com.challenge.mottu.service.BlocoService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping(value = "/blocos")
+@RequestMapping(value = "/api/blocos")
 public class BlocoController {
 	
 	private final MottuApplication mottuApplication;

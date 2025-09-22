@@ -31,7 +31,7 @@ import com.challenge.mottu.service.PatioService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping(value = "/patios")
+@RequestMapping(value = "/api/patios")
 public class PatioController {
 	
 	private final MottuApplication mottuApplication;

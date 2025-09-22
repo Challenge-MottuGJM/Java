@@ -31,7 +31,7 @@ import com.challenge.mottu.service.GalpaoService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping(value = "/galpoes")
+@RequestMapping(value = "/api/galpoes")
 public class GalpaoController {
 
 	private final MottuApplication mottuApplication;

@@ -31,7 +31,7 @@ import com.challenge.mottu.service.AndarService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping(value = "/andares")
+@RequestMapping(value = "/api/andares")
 public class AndarController {
 
 private final MottuApplication mottuApplication;

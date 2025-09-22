@@ -32,7 +32,7 @@ import com.challenge.mottu.service.UsuarioService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping(value = "/usuarios")
+@RequestMapping(value = "/api/usuarios")
 public class UsuarioController {
 	
 	private final MottuApplication mottuApplication;

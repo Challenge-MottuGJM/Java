@@ -31,7 +31,7 @@ import com.challenge.mottu.service.MotoService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping(value = "/motos")
+@RequestMapping(value = "/api/motos")
 public class MotoController {
 	
 private final MottuApplication mottuApplication;
