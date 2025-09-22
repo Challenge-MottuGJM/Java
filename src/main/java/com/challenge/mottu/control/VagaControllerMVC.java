@@ -103,6 +103,7 @@ public class VagaControllerMVC {
 			
 			ModelAndView mv = new ModelAndView("/vaga/edicao");
 			mv.addObject("vaga", op.get());
+			mv.addObject("lista_blocos", repB.findAll());
 			return mv;
 			
 		} else {

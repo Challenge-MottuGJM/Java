@@ -1,0 +1,40 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: cabecalho('Editar Moto')}" />
+  <body>
+	  <div th:replace="~{fragmentos :: form-logout}" />
+    <div class="container">
+        <div class="row">
+            <h1>Editar Moto</h1>
+        </div>
+        <div class="row">
+            
+            <form th:object="${moto}" th:action="@{/atualizar_moto/{id}(id = ${moto.id})}" method="post">
+            	Modelo: <input class="form-control" type="text" th:field="*{modelo}" th:errorclass="is-invalid">
+            	<div class="invalid-feedback" th:errors="*{modelo}"></div><br>
+				Marca: <input class="form-control" type="text" th:field="*{marca}" th:errorclass="is-invalid">
+				<div class="invalid-feedback" th:errors="*{marca}"></div><br>
+				Chassi: <input class="form-control" type="text" th:field="*{chassi}" th:errorclass="is-invalid">
+				<div class="invalid-feedback" th:errors="*{chassi}"></div><br>
+				Placa: <input class="form-control" type="text" th:field="*{placa}" th:errorclass="is-invalid">
+				<div class="invalid-feedback" th:errors="*{placa}"></div><br>
+				Status: <input class="form-control" type="text" th:field="*{status}" th:errorclass="is-invalid">
+				<div class="invalid-feedback" th:errors="*{status}"></div><br>			
+            	Vaga:
+				            	<select class="form-select" th:field="*{vaga}">
+				            		<option th:each="vaga : ${lista_vagas}" th:value="${vaga.id}" th:text="${vaga.numero_vaga}" />
+				            	</select>
+								
+            	<button type="submit">Editar Moto</button>
+            </form>
+            
+        </div>
+        <div class="row">
+            <a href="/moto/index">Listar motos</a>
+        </div>
+    </div>
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+  </body>
+</html>

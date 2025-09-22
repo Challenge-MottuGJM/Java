@@ -109,6 +109,7 @@ public class MotoControllerMVC {
 			
 			ModelAndView mv = new ModelAndView("/moto/edicao");
 			mv.addObject("moto", op.get());
+			mv.addObject("lista_vagas", repV.findAll());
 			return mv;
 			
 		} else {

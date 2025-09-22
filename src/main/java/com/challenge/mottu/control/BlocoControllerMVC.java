@@ -104,6 +104,7 @@ public class BlocoControllerMVC {
 			
 			ModelAndView mv = new ModelAndView("/bloco/edicao");
 			mv.addObject("bloco", op.get());
+			mv.addObject("lista_patios", repP.findAll());
 			return mv;
 			
 		} else {

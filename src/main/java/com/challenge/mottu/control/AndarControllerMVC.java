@@ -103,6 +103,7 @@ public class AndarControllerMVC {
 			
 			ModelAndView mv = new ModelAndView("/andar/edicao");
 			mv.addObject("andar", op.get());
+			mv.addObject("lista_galpoes", repG.findAll());
 			return mv;
 			
 		} else {

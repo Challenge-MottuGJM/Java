@@ -104,6 +104,7 @@ public class PatioControllerMVC {
 			
 			ModelAndView mv = new ModelAndView("/patio/edicao");
 			mv.addObject("patio", op.get());
+			mv.addObject("lista_andares", repA.findAll());
 			return mv;
 			
 		} else {
