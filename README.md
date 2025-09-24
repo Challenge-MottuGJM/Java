@@ -96,6 +96,5 @@ Este projeto foi desenvolvido para fins acadêmicos e educacionais.
 
 ### 📬 Como Usar o Sistema Localmente
 
-Com o servidor rodando em `http://localhost:8080/login`, você pode acessar os seguintes endpoints para interagir com o sistema.
-
+Com o servidor rodando em `http://localhost:8080/login`. 
 ---
