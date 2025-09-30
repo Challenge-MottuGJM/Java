@@ -11,9 +11,9 @@
         </div>
         <div class="row">
             
-            <form th:object="${andar}" action="/insere_patio" method="post">
+            <form th:object="${patio}" action="/insere_patio" method="post">
             	
-            	Número do pátio: <input class="form-control" type="number" th:field="*{numero_andar}"><br>
+            	Número do pátio: <input class="form-control" type="number" th:field="*{numero_patio}"><br>
 				Andar:
 				            	<select class="form-select" th:name="'andar_id'">
 				            		<option th:each="andar : ${lista_andares}" th:value="${andar.id}" th:text="${andar.numero_andar}" />

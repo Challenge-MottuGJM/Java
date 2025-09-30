@@ -11,7 +11,7 @@
         </div>
         <div class="row">
             
-            <form th:object="${vaga}" action="/insere_vaga" method="post">
+            <form th:object="${moto}" action="/insere_moto" method="post">
             	
             	Status da moto: <input class="form-control" type="text" th:field="*{status}"><br>
 				Modelo da moto: <input class="form-control" type="text" th:field="*{modelo}"><br>
@@ -20,7 +20,7 @@
 				Chassi da moto: <input class="form-control" type="text" th:field="*{chassi}"><br>
 				Vaga:
 				            	<select class="form-select" th:name="'vaga_id'">
-				            		<option th:each="vaga : ${lista_vagas}" th:value="${vaga.id}" th:text="${bloco.numero_vaga}" />
+				            		<option th:each="vaga : ${lista_vagas}" th:value="${vaga.id}" th:text="${vaga.numero_vaga}" />
 				            	</select>
 								
             	<button type="submit">Cadastrar Vaga</button>

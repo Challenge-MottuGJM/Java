@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.challenge.mottu.model.Moto;
-import com.challenge.mottu.model.Patio;
 import com.challenge.mottu.model.Usuario;
-import com.challenge.mottu.repository.AndarRepository;
 import com.challenge.mottu.repository.MotoRepository;
 import com.challenge.mottu.repository.UsuarioRepository;
 import com.challenge.mottu.repository.VagaRepository;

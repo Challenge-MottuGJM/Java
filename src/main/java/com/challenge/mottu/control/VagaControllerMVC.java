@@ -60,7 +60,7 @@ public class VagaControllerMVC {
 		ModelAndView mv = new ModelAndView("/vaga/novo");
 
 		mv.addObject("vaga", new Vaga());
-		mv.addObject("lista_vagas", repV.findAll());
+		mv.addObject("lista_blocos", repB.findAll());
 
 		return mv;
 	}
