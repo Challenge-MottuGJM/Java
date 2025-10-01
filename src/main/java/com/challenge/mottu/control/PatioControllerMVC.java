@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -66,16 +67,26 @@ public class PatioControllerMVC {
 		return mv;
 	}
 	
-	@PostMapping("/insere_patio")
-	public ModelAndView cadastrarPatio(@Valid Patio patio) {
+	@PostMapping("/patio/insere_patio")
+	public ModelAndView cadastrarPatio(@Valid Patio patio, BindingResult bd) {
 		
-		Patio patio_novo = new Patio();
-		patio_novo.setAndar(patio.getAndar());
-		patio_novo.setNumero_patio(patio.getNumero_patio());
+		if(bd.hasErrors()) {
+			
+			ModelAndView mv = new ModelAndView("/patio/novo");
+			mv.addObject("patio", patio);
+			mv.addObject("lista_andares", repA.findAll());
+			return mv;
+			
+		} else {
 		
-		repP.save(patio_novo);
-		
-		return new ModelAndView("redirect:/index");
+			Patio patio_novo = new Patio();
+			patio_novo.setAndar(patio.getAndar());
+			patio_novo.setNumero_patio(patio.getNumero_patio());
+			
+			repP.save(patio_novo);
+			
+			return new ModelAndView("redirect:/index");
+		}
 	}
 	
 	@GetMapping("/patio/detalhes/{id}")
@@ -109,6 +120,33 @@ public class PatioControllerMVC {
 			
 		} else {
 			return new ModelAndView("redirect:/index");
+		}
+	}
+	
+	@PostMapping("/patio/atualizar_patio/{id}")
+	public ModelAndView atualizarPatio(@PathVariable Long id, @Valid Patio patio, BindingResult bd) {
+		
+		if(bd.hasErrors()) {
+			
+			ModelAndView mv = new ModelAndView("/patio/edicao");
+			mv.addObject("patio", patio);
+			mv.addObject("lista_andares", repA.findAll());
+			return mv;
+			
+		} else {
+			Optional<Patio> op = repP.findById(id);
+			
+			if(op.isPresent()) {
+				
+				Patio patio_antigo = op.get();
+				patio_antigo.setNumero_patio(patio.getNumero_patio());
+				patio_antigo.setAndar(patio.getAndar());
+				repP.save(patio_antigo);
+				return new ModelAndView("redirect:/index");
+				
+			} else {
+				return new ModelAndView("redirect:/index");
+			}
 		}
 	}
 	

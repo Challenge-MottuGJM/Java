@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -65,16 +66,26 @@ public class AndarControllerMVC {
 		return mv;
 	}
 	
-	@PostMapping("/insere_andar")
-	public ModelAndView cadastrarAndar(@Valid Andar andar) {
+	@PostMapping("/andar/insere_andar")
+	public ModelAndView cadastrarAndar(@Valid Andar andar, BindingResult bd) {
 		
-		Andar andar_novo = new Andar();
-		andar_novo.setGalpao(andar.getGalpao());
-		andar_novo.setNumero_andar(andar.getNumero_andar());
+		if(bd.hasErrors()) {
+			
+			ModelAndView mv = new ModelAndView("/andar/novo");
+			mv.addObject("andar", andar);
+			mv.addObject("lista_galpoes", repG.findAll());
+			return mv;
+			
+		} else {
 		
-		repA.save(andar_novo);
-		
-		return new ModelAndView("redirect:/index");
+			Andar andar_novo = new Andar();
+			andar_novo.setGalpao(andar.getGalpao());
+			andar_novo.setNumero_andar(andar.getNumero_andar());
+			
+			repA.save(andar_novo);
+			
+			return new ModelAndView("redirect:/index");
+		}
 	}
 	
 	@GetMapping("/andar/detalhes/{id}")
@@ -108,6 +119,33 @@ public class AndarControllerMVC {
 			
 		} else {
 			return new ModelAndView("redirect:/index");
+		}
+	}
+	
+	@PostMapping("/andar/atualizar_andar/{id}")
+	public ModelAndView atualizarAndar(@PathVariable Long id, @Valid Andar andar, BindingResult bd) {
+		
+		if(bd.hasErrors()) {
+			
+			ModelAndView mv = new ModelAndView("/andar/edicao");
+			mv.addObject("andar", andar);
+			mv.addObject("lista_galpoes", repG.findAll());
+			return mv;
+			
+		} else {
+			Optional<Andar> op = repA.findById(id);
+			
+			if(op.isPresent()) {
+				
+				Andar andar_antigo = op.get();
+				andar_antigo.setNumero_andar(andar.getNumero_andar());
+				andar_antigo.setGalpao(andar.getGalpao());
+				repA.save(andar_antigo);
+				return new ModelAndView("redirect:/index");
+				
+			} else {
+				return new ModelAndView("redirect:/index");
+			}
 		}
 	}
 	

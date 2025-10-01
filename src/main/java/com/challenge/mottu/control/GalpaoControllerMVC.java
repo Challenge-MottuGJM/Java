@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -62,15 +63,24 @@ public class GalpaoControllerMVC {
 		return mv;
 	}
 	
-	@PostMapping("/insere_galpao")
-	public ModelAndView cadastrarGalpao(@Valid Galpao galpao) {
+	@PostMapping("/galpao/insere_galpao")
+	public ModelAndView cadastrarGalpao(@Valid Galpao galpao, BindingResult bd) {
 		
-		Galpao galpao_novo = new Galpao();
-		galpao_novo.setNome_galpao(galpao.getNome_galpao());
+		if(bd.hasErrors()) {
+			
+			ModelAndView mv = new ModelAndView("/galpao/novo");
+			mv.addObject("galpao", galpao);
+			return mv;
+			
+		} else {
 		
-		repG.save(galpao_novo);
-		
-		return new ModelAndView("redirect:/index");
+			Galpao galpao_novo = new Galpao();
+			galpao_novo.setNome_galpao(galpao.getNome_galpao());
+			
+			repG.save(galpao_novo);
+			
+			return new ModelAndView("redirect:/index");
+		}
 	}
 	
 	@GetMapping("/galpao/detalhes/{id}")
@@ -103,6 +113,31 @@ public class GalpaoControllerMVC {
 			
 		} else {
 			return new ModelAndView("redirect:/index");
+		}
+	}
+	
+	@PostMapping("/galpao/atualizar_galpao/{id}")
+	public ModelAndView atualizarGalpao(@PathVariable Long id, @Valid Galpao galpao, BindingResult bd) {
+		
+		if(bd.hasErrors()) {
+			
+			ModelAndView mv = new ModelAndView("/galpao/edicao");
+			mv.addObject("galpao", galpao);
+			return mv;
+			
+		} else {
+			Optional<Galpao> op = repG.findById(id);
+			
+			if(op.isPresent()) {
+				
+				Galpao galpao_antigo = op.get();
+				galpao_antigo.setNome_galpao(galpao.getNome_galpao());
+				repG.save(galpao_antigo);
+				return new ModelAndView("redirect:/index");
+				
+			} else {
+				return new ModelAndView("redirect:/index");
+			}
 		}
 	}
 	

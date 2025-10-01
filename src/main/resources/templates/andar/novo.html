@@ -11,11 +11,13 @@
         </div>
         <div class="row">
             
-            <form th:object="${andar}" action="/insere_andar" method="post">
+            <form th:object="${andar}" th:action="@{/andar/insere_andar}" method="post">
+				
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             	
             	Número do andar: <input class="form-control" type="number" th:field="*{numero_andar}"><br>
 				Galpão:
-				            	<select class="form-select" th:name="'galpao_id'">
+				            	<select class="form-select" th:field="*{galpao.id}">
 				            		<option th:each="galpao : ${lista_galpoes}" th:value="${galpao.id}" th:text="${galpao.nome_galpao}" />
 				            	</select>
 								
@@ -24,7 +26,7 @@
             
         </div>
         <div class="row">
-            <a href="/index">Voltar à página inicial</a>
+            <a href="andar/index">Voltar à página inicial</a>
         </div>
     </div>
 

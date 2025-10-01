@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.challenge.mottu.model.Andar;
 import com.challenge.mottu.model.Bloco;
 import com.challenge.mottu.model.Usuario;
 import com.challenge.mottu.repository.BlocoRepository;
@@ -66,8 +66,17 @@ public class BlocoControllerMVC {
 		return mv;
 	}
 	
-	@PostMapping("/insere_bloco")
-	public ModelAndView cadastrarBloco(@Valid Bloco bloco) {
+	@PostMapping("/bloco/insere_bloco")
+	public ModelAndView cadastrarBloco(@Valid Bloco bloco, BindingResult bd) {
+		
+		if(bd.hasErrors()) {
+			
+			ModelAndView mv = new ModelAndView("/bloco/novo");
+			mv.addObject("bloco", bloco);
+			mv.addObject("lista_patios", repP.findAll());
+			return mv;
+			
+		} else {
 		
 		Bloco bloco_novo = new Bloco();
 		bloco_novo.setPatio(bloco.getPatio());
@@ -76,6 +85,7 @@ public class BlocoControllerMVC {
 		repB.save(bloco_novo);
 		
 		return new ModelAndView("redirect:/index");
+		}
 	}
 	
 	@GetMapping("/bloco/detalhes/{id}")
@@ -109,6 +119,33 @@ public class BlocoControllerMVC {
 			
 		} else {
 			return new ModelAndView("redirect:/index");
+		}
+	}
+	
+	@PostMapping("/bloco/atualizar_bloco/{id}")
+	public ModelAndView atualizarBloco(@PathVariable Long id, @Valid Bloco bloco, BindingResult bd) {
+		
+		if(bd.hasErrors()) {
+			
+			ModelAndView mv = new ModelAndView("/bloco/edicao");
+			mv.addObject("bloco", bloco);
+			mv.addObject("lista_patios", repP.findAll());
+			return mv;
+			
+		} else {
+			Optional<Bloco> op = repB.findById(id);
+			
+			if(op.isPresent()) {
+				
+				Bloco bloco_antigo = op.get();
+				bloco_antigo.setLetra_bloco(bloco.getLetra_bloco());
+				bloco_antigo.setPatio(bloco.getPatio());
+				repB.save(bloco_antigo);
+				return new ModelAndView("redirect:/index");
+				
+			} else {
+				return new ModelAndView("redirect:/index");
+			}
 		}
 	}
 	

@@ -7,11 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.challenge.mottu.model.Bloco;
 import com.challenge.mottu.model.Moto;
 import com.challenge.mottu.model.Usuario;
 import com.challenge.mottu.repository.MotoRepository;
@@ -65,20 +67,30 @@ public class MotoControllerMVC {
 		return mv;
 	}
 	
-	@PostMapping("/insere_moto")
-	public ModelAndView cadastrarMoto(@Valid Moto moto) {
+	@PostMapping("/moto/insere_moto")
+	public ModelAndView cadastrarMoto(@Valid Moto moto, BindingResult bd) {
 		
-		Moto moto_nova = new Moto();
-		moto_nova.setChassi(moto.getChassi());
-		moto_nova.setMarca(moto.getMarca());
-		moto_nova.setModelo(moto.getModelo());
-		moto_nova.setPlaca(moto.getPlaca());
-		moto_nova.setStatus(moto.getStatus());
-		moto_nova.setVaga(moto.getVaga());
+		if(bd.hasErrors()) {
+			
+			ModelAndView mv = new ModelAndView("/moto/novo");
+			mv.addObject("moto", moto);
+			mv.addObject("lista_vagas", repV.findAll());
+			return mv;
+			
+		} else {
 		
-		repM.save(moto_nova);
-		
-		return new ModelAndView("redirect:/index");
+			Moto moto_nova = new Moto();
+			moto_nova.setChassi(moto.getChassi());
+			moto_nova.setMarca(moto.getMarca());
+			moto_nova.setModelo(moto.getModelo());
+			moto_nova.setPlaca(moto.getPlaca());
+			moto_nova.setStatus(moto.getStatus());
+			moto_nova.setVaga(moto.getVaga());
+			
+			repM.save(moto_nova);
+			
+			return new ModelAndView("redirect:/index");
+		}
 	}
 	
 	@GetMapping("/moto/detalhes/{id}")
@@ -112,6 +124,37 @@ public class MotoControllerMVC {
 			
 		} else {
 			return new ModelAndView("redirect:/index");
+		}
+	}
+	
+	@PostMapping("/moto/atualizar_moto/{id}")
+	public ModelAndView atualizarMoto(@PathVariable Long id, @Valid Moto moto, BindingResult bd) {
+		
+		if(bd.hasErrors()) {
+			
+			ModelAndView mv = new ModelAndView("/moto/edicao");
+			mv.addObject("moto", moto);
+			mv.addObject("lista_vagas", repV.findAll());
+			return mv;
+			
+		} else {
+			Optional<Moto> op = repM.findById(id);
+			
+			if(op.isPresent()) {
+				
+				Moto moto_antiga = op.get();
+				moto_antiga.setChassi(moto.getChassi());
+				moto_antiga.setMarca(moto.getMarca());
+				moto_antiga.setModelo(moto.getModelo());
+				moto_antiga.setPlaca(moto.getPlaca());
+				moto_antiga.setStatus(moto.getStatus());
+				moto_antiga.setVaga(moto.getVaga());
+				repM.save(moto_antiga);
+				return new ModelAndView("redirect:/index");
+				
+			} else {
+				return new ModelAndView("redirect:/index");
+			}
 		}
 	}
 	

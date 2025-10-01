@@ -7,11 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.challenge.mottu.model.Bloco;
 import com.challenge.mottu.model.Usuario;
 import com.challenge.mottu.model.Vaga;
 import com.challenge.mottu.repository.BlocoRepository;
@@ -65,16 +67,26 @@ public class VagaControllerMVC {
 		return mv;
 	}
 	
-	@PostMapping("/insere_vaga")
-	public ModelAndView cadastrarVaga(@Valid Vaga vaga) {
+	@PostMapping("/vaga/insere_vaga")
+	public ModelAndView cadastrarVaga(@Valid Vaga vaga, BindingResult bd) {
 		
-		Vaga vaga_novo = new Vaga();
-		vaga_novo.setBloco(vaga.getBloco());
-		vaga_novo.setNumero_vaga(vaga.getNumero_vaga());
+		if(bd.hasErrors()) {
+			
+			ModelAndView mv = new ModelAndView("/vaga/novo");
+			mv.addObject("vaga", vaga);
+			mv.addObject("lista_blocos", repB.findAll());
+			return mv;
+			
+		} else {
 		
-		repV.save(vaga_novo);
-		
-		return new ModelAndView("redirect:/index");
+			Vaga vaga_novo = new Vaga();
+			vaga_novo.setBloco(vaga.getBloco());
+			vaga_novo.setNumero_vaga(vaga.getNumero_vaga());
+			
+			repV.save(vaga_novo);
+			
+			return new ModelAndView("redirect:/index");
+		}
 	}
 	
 	@GetMapping("/vaga/detalhes/{id}")
@@ -108,6 +120,33 @@ public class VagaControllerMVC {
 			
 		} else {
 			return new ModelAndView("redirect:/index");
+		}
+	}
+	
+	@PostMapping("/vaga/atualizar_vaga/{id}")
+	public ModelAndView atualizarVaga(@PathVariable Long id, @Valid Vaga vaga, BindingResult bd) {
+		
+		if(bd.hasErrors()) {
+			
+			ModelAndView mv = new ModelAndView("/vaga/edicao");
+			mv.addObject("vaga", vaga);
+			mv.addObject("lista_blocos", repB.findAll());
+			return mv;
+			
+		} else {
+			Optional<Vaga> op = repV.findById(id);
+			
+			if(op.isPresent()) {
+				
+				Vaga vaga_antiga = op.get();
+				vaga_antiga.setNumero_vaga(vaga.getNumero_vaga());
+				vaga_antiga.setBloco(vaga.getBloco());
+				repV.save(vaga_antiga);
+				return new ModelAndView("redirect:/index");
+				
+			} else {
+				return new ModelAndView("redirect:/index");
+			}
 		}
 	}
 	

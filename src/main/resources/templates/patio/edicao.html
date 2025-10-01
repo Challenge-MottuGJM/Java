@@ -9,11 +9,14 @@
         </div>
         <div class="row">
             
-            <form th:object="${patio}" th:action="@{/atualizar_patio/{id}(id = ${patio.id})}" method="post">
-            	Número do Pátio: <input class="form-control" type="text" th:field="*{numero_patio}" th:errorclass="is-invalid">
+            <form th:object="${patio}" th:action="@{/patio/atualizar_patio/{id}(id = ${patio.id})}" method="post">
+            	
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+				
+				Número do Pátio: <input class="form-control" type="text" th:field="*{numero_patio}" th:errorclass="is-invalid">
             	<div class="invalid-feedback" th:errors="*{numero_patio}"></div><br>
             	Andar:
-				            	<select class="form-select" th:field="*{andar}">
+				            	<select class="form-select" th:field="*{andar.id}">
 				            		<option th:each="andar : ${lista_andares}" th:value="${andar.id}" th:text="${andar.numero_andar}" />
 				            	</select>
 								

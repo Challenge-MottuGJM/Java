@@ -11,7 +11,9 @@
         </div>
         <div class="row">
             
-            <form th:object="${moto}" action="/insere_moto" method="post">
+            <form th:object="${moto}" action="/moto/insere_moto" method="post">
+				
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             	
             	Status da moto: <input class="form-control" type="text" th:field="*{status}"><br>
 				Modelo da moto: <input class="form-control" type="text" th:field="*{modelo}"><br>
@@ -19,7 +21,7 @@
 				Placa da moto: <input class="form-control" type="text" th:field="*{placa}"><br>
 				Chassi da moto: <input class="form-control" type="text" th:field="*{chassi}"><br>
 				Vaga:
-				            	<select class="form-select" th:name="'vaga_id'">
+				            	<select class="form-select" th:field="*{vaga.id}">
 				            		<option th:each="vaga : ${lista_vagas}" th:value="${vaga.id}" th:text="${vaga.numero_vaga}" />
 				            	</select>
 								
@@ -28,7 +30,7 @@
             
         </div>
         <div class="row">
-            <a href="/index">Voltar à página inicial</a>
+            <a href="/moto/index">Voltar à página inicial</a>
         </div>
     </div>
 

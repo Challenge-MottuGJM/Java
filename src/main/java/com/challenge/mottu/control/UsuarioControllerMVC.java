@@ -11,7 +11,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.challenge.mottu.model.Cargo;
+import com.challenge.mottu.model.EnumCargo;
 import com.challenge.mottu.model.Usuario;
 import com.challenge.mottu.repository.CargoRepository;
 import com.challenge.mottu.repository.UsuarioRepository;
@@ -93,7 +93,7 @@ public class UsuarioControllerMVC {
 		return mv;
 	}
 	
-	@PostMapping("/insere_usuario")
+	@PostMapping("/usuario/insere_usuario")
 	public ModelAndView inserirUsuario(Usuario usuario, @RequestParam(name = "cargo_id") Long cargo_id) {
 
 		usuario.setSenha(encoder.encode(usuario.getSenha()));
@@ -151,7 +151,7 @@ public class UsuarioControllerMVC {
 		}
 	}
 	
-	@PostMapping("/atualizar_usuario/{id}")
+	@PostMapping("/usuario/atualizar_usuario/{id}")
 	public ModelAndView atualizarUsuario(@PathVariable Long id, @Valid Usuario usuario, BindingResult bd) {
 		
 		if(bd.hasErrors()) {

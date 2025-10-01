@@ -9,11 +9,14 @@
         </div>
         <div class="row">
             
-            <form th:object="${bloco}" th:action="@{/atualizar_bloco/{id}(id = ${bloco.id})}" method="post">
-            	Letra do Bloco: <input class="form-control" type="text" th:field="*{letra_bloco}" th:errorclass="is-invalid">
+            <form th:object="${bloco}" th:action="@{/bloco/atualizar_bloco/{id}(id = ${bloco.id})}" method="post">
+            	
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+				
+				Letra do Bloco: <input class="form-control" type="text" th:field="*{letra_bloco}" th:errorclass="is-invalid">
             	<div class="invalid-feedback" th:errors="*{letra_bloco}"></div><br>
             	Pátio:
-				            	<select class="form-select" th:field="*{patio}">
+				            	<select class="form-select" th:field="*{patio.id}">
 				            		<option th:each="patio : ${lista_patios}" th:value="${patio.id}" th:text="${patio.numero_patio}" />
 				            	</select>
 								

@@ -9,11 +9,14 @@
         </div>
         <div class="row">
             
-            <form th:object="${vaga}" th:action="@{/atualizar_vaga/{id}(id = ${vaga.id})}" method="post">
-            	Número da vaga: <input class="form-control" type="text" th:field="*{numero_vaga}" th:errorclass="is-invalid">
+            <form th:object="${vaga}" th:action="@{/vaga/atualizar_vaga/{id}(id = ${vaga.id})}" method="post">
+            	
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+				
+				Número da vaga: <input class="form-control" type="text" th:field="*{numero_vaga}" th:errorclass="is-invalid">
             	<div class="invalid-feedback" th:errors="*{numero_vaga}"></div><br>
             	Bloco:
-				            	<select class="form-select" th:field="*{bloco}">
+				            	<select class="form-select" th:field="*{bloco.id}">
 				            		<option th:each="bloco : ${lista_blocos}" th:value="${bloco.id}" th:text="${bloco.letra_bloco}" />
 				            	</select>
 								

@@ -11,25 +11,27 @@
         </div>
         <div class="row">
             
-            <form th:object="${usuario}" action="/insere_usuario" method="post">
-            	
-            	Nome: <input class="form-control" type="text" th:field="*{nome}"><br>
-            	Username: <input class="form-control" type="text" th:field="*{username}"><br>
-            	Senha: <input class="form-control" type="password" th:field="*{senha}"><br>
-            	
-            	Cargo:
-            	<select class="form-select" th:name="'cargo_id'">
-            		<option th:each="cargo : ${lista_cargos}" th:value="${cargo.id}" th:text="${cargo.nome}" />
-            	</select>
-            	
-            	<input type="hidden" name="_csrf" th:value="${_csrf.token}">
+			<form th:object="${usuario}" th:action="@{/usuario/insere_usuario}" method="post">
+				
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+			           	
+			           	Nome: <input class="form-control" type="text" th:field="*{nome}"><br>
+			           	Username: <input class="form-control" type="text" th:field="*{username}"><br>
+			           	Senha: <input class="form-control" type="password" th:field="*{senha}"><br>
+			           	
+			           	Cargo:
+			           	<select class="form-select" th:name="'cargo_id'">
+			           		<option th:each="cargo : ${lista_cargos}" th:value="${cargo.id}" th:text="${cargo.nome}" />
+			           	</select>
+			           	
+			           	<input type="hidden" name="_csrf" th:value="${_csrf.token}">
 
-            	<button type="submit">Cadastrar Usuário</button>
-            </form>
+			           	<button type="submit">Cadastrar Usuário</button>
+			           </form>
             
         </div>
         <div class="row">
-            <a href="/index">Listar usuários</a>
+            <a href="/usuario/index">Listar usuários</a>
         </div>
     </div>
 

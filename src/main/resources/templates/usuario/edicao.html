@@ -9,7 +9,10 @@
         </div>
         <div class="row">
             
-            <form th:object="${usuario}" th:action="@{/atualizar_usuario/{id}(id = ${usuario.id})}" method="post">
+            <form th:object="${usuario}" th:action="@{/usuario/atualizar_usuario/{id}(id = ${usuario.id})}" method="post">
+				
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+				
             	Nome: <input class="form-control" type="text" th:field="*{nome}" th:errorclass="is-invalid">
             	<div class="invalid-feedback" th:errors="*{nome}"></div><br>
             	Username: <input class="form-control" type="text" th:field="*{username}" th:errorclass="is-invalid">
@@ -17,7 +20,7 @@
 				Senha: <input class="form-control" type="password" th:field="*{senha}" th:errorclass="is-invalid">
 				            	<div class="invalid-feedback" th:errors="*{senha}"></div><br>
 				Cargo:
-				            	<select class="form-select" th:field="*{cargo}">
+				            	<select class="form-select" th:field="*{cargo}" multiple>
 				            		<option th:each="cargo : ${lista_cargos}" th:value="${cargo.id}" th:text="${cargo.nome}" />
 				            	</select>
 								

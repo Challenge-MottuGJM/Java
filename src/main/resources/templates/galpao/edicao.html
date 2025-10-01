@@ -9,8 +9,11 @@
         </div>
         <div class="row">
             
-            <form th:object="${galpao}" th:action="@{/atualizar_galpao/{id}(id = ${galpao.id})}" method="post">
-            	Nome do galpão: <input class="form-control" type="text" th:field="*{nome_galpao}" th:errorclass="is-invalid">
+            <form th:object="${galpao}" th:action="@{/galpao/atualizar_galpao/{id}(id = ${galpao.id})}" method="post">
+            	
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+				
+				Nome do galpão: <input class="form-control" type="text" th:field="*{nome_galpao}" th:errorclass="is-invalid">
             	<div class="invalid-feedback" th:errors="*{nome_galpao}"></div><br>
 								
             	<button type="submit">Editar Galpão</button>

@@ -9,8 +9,11 @@
         </div>
         <div class="row">
             
-            <form th:object="${moto}" th:action="@{/atualizar_moto/{id}(id = ${moto.id})}" method="post">
-            	Modelo: <input class="form-control" type="text" th:field="*{modelo}" th:errorclass="is-invalid">
+            <form th:object="${moto}" th:action="@{/moto/atualizar_moto/{id}(id = ${moto.id})}" method="post">
+            	
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+				
+				Modelo: <input class="form-control" type="text" th:field="*{modelo}" th:errorclass="is-invalid">
             	<div class="invalid-feedback" th:errors="*{modelo}"></div><br>
 				Marca: <input class="form-control" type="text" th:field="*{marca}" th:errorclass="is-invalid">
 				<div class="invalid-feedback" th:errors="*{marca}"></div><br>
@@ -21,7 +24,7 @@
 				Status: <input class="form-control" type="text" th:field="*{status}" th:errorclass="is-invalid">
 				<div class="invalid-feedback" th:errors="*{status}"></div><br>			
             	Vaga:
-				            	<select class="form-select" th:field="*{vaga}">
+				            	<select class="form-select" th:field="*{vaga.id}">
 				            		<option th:each="vaga : ${lista_vagas}" th:value="${vaga.id}" th:text="${vaga.numero_vaga}" />
 				            	</select>
 								

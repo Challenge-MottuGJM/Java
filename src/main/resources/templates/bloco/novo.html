@@ -11,11 +11,13 @@
         </div>
         <div class="row">
             
-            <form th:object="${bloco}" action="/insere_bloco" method="post">
+            <form th:object="${bloco}" th:action="@{/bloco/insere_bloco}" method="post">
+				
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             	
             	Letra do bloco: <input class="form-control" type="text" th:field="*{letra_bloco}"><br>
 				Pátio:
-				            	<select class="form-select" th:name="'patio_id'">
+				            	<select class="form-select" th:field="*{patio.id}">
 				            		<option th:each="patio : ${lista_patios}" th:value="${patio.id}" th:text="${patio.numero_patio}" />
 				            	</select>
 								
@@ -24,7 +26,7 @@
             
         </div>
         <div class="row">
-            <a href="/index">Voltar à página inicial</a>
+            <a href="/bloco/index">Voltar à página inicial</a>
         </div>
     </div>
 
