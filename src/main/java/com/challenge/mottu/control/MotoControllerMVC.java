@@ -19,6 +19,8 @@ import com.challenge.mottu.model.Usuario;
 import com.challenge.mottu.repository.MotoRepository;
 import com.challenge.mottu.repository.UsuarioRepository;
 import com.challenge.mottu.repository.VagaRepository;
+import com.challenge.mottu.service.MotoCachingService;
+import com.challenge.mottu.service.VagaCachingService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -30,17 +32,23 @@ public class MotoControllerMVC {
 	private MotoRepository repM;
 	
 	@Autowired
+	private MotoCachingService cacheM;
+	
+	@Autowired
 	private UsuarioRepository repU;
 	
 	@Autowired
 	private VagaRepository repV;
+	
+	@Autowired
+	private VagaCachingService cacheV;
 	
 	@GetMapping("/moto/index")
 	public ModelAndView popularIndex() {
 
 		ModelAndView mv = new ModelAndView("/moto/index");
 
-		List<Moto> motos = repM.findAll();
+		List<Moto> motos = cacheM.findAll();
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		
@@ -51,7 +59,7 @@ public class MotoControllerMVC {
 		}
 
 		mv.addObject("motos", motos);
-		mv.addObject("lista_vagas", repV.findAll());
+		mv.addObject("lista_vagas", cacheV.findAll());
 
 		return mv;
 	}
@@ -62,7 +70,7 @@ public class MotoControllerMVC {
 		ModelAndView mv = new ModelAndView("/moto/novo");
 
 		mv.addObject("moto", new Moto());
-		mv.addObject("lista_vagas", repV.findAll());
+		mv.addObject("lista_vagas", cacheV.findAll());
 
 		return mv;
 	}
@@ -74,7 +82,7 @@ public class MotoControllerMVC {
 			
 			ModelAndView mv = new ModelAndView("/moto/novo");
 			mv.addObject("moto", moto);
-			mv.addObject("lista_vagas", repV.findAll());
+			mv.addObject("lista_vagas", cacheV.findAll());
 			return mv;
 			
 		} else {
@@ -88,6 +96,7 @@ public class MotoControllerMVC {
 			moto_nova.setVaga(moto.getVaga());
 			
 			repM.save(moto_nova);
+			cacheM.limparCache();
 			
 			return new ModelAndView("redirect:/index");
 		}
@@ -96,7 +105,7 @@ public class MotoControllerMVC {
 	@GetMapping("/moto/detalhes/{id}")
 	public ModelAndView exibirDetalhesMoto(HttpServletRequest request, @PathVariable Long id) {
 		
-		Optional<Moto> op = repM.findById(id);
+		Optional<Moto> op = cacheM.findById(id);
 		
 		if(op.isPresent()) {
 			
@@ -113,13 +122,13 @@ public class MotoControllerMVC {
 	@GetMapping("/moto/editar/{id}")
 	public ModelAndView exibirPaginaMoto(@PathVariable Long id){
 		
-		Optional<Moto> op = repM.findById(id);
+		Optional<Moto> op = cacheM.findById(id);
 		
 		if(op.isPresent()) {
 			
 			ModelAndView mv = new ModelAndView("/moto/edicao");
 			mv.addObject("moto", op.get());
-			mv.addObject("lista_vagas", repV.findAll());
+			mv.addObject("lista_vagas", cacheV.findAll());
 			return mv;
 			
 		} else {
@@ -134,11 +143,11 @@ public class MotoControllerMVC {
 			
 			ModelAndView mv = new ModelAndView("/moto/edicao");
 			mv.addObject("moto", moto);
-			mv.addObject("lista_vagas", repV.findAll());
+			mv.addObject("lista_vagas", cacheV.findAll());
 			return mv;
 			
 		} else {
-			Optional<Moto> op = repM.findById(id);
+			Optional<Moto> op = cacheM.findById(id);
 			
 			if(op.isPresent()) {
 				
@@ -150,6 +159,7 @@ public class MotoControllerMVC {
 				moto_antiga.setStatus(moto.getStatus());
 				moto_antiga.setVaga(moto.getVaga());
 				repM.save(moto_antiga);
+				cacheM.limparCache();
 				return new ModelAndView("redirect:/index");
 				
 			} else {
@@ -161,11 +171,12 @@ public class MotoControllerMVC {
 	@GetMapping("/moto/remover/{id}")
 	public ModelAndView removerMoto(@PathVariable Long id) {
 		
-		Optional<Moto> op = repM.findById(id);
+		Optional<Moto> op = cacheM.findById(id);
 		
 		if(op.isPresent()) {
 			
 			repM.deleteById(id);
+			cacheM.limparCache();
 			
 			return new ModelAndView("redirect:/index");
 			

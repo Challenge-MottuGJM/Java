@@ -18,6 +18,8 @@ import com.challenge.mottu.model.Usuario;
 import com.challenge.mottu.repository.AndarRepository;
 import com.challenge.mottu.repository.GalpaoRepository;
 import com.challenge.mottu.repository.UsuarioRepository;
+import com.challenge.mottu.service.AndarCachingService;
+import com.challenge.mottu.service.GalpaoCachingService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -29,17 +31,23 @@ public class AndarControllerMVC {
 	private AndarRepository repA;
 	
 	@Autowired
+	private AndarCachingService cacheA;
+	
+	@Autowired
 	private UsuarioRepository repU;
 	
 	@Autowired
 	private GalpaoRepository repG;
+	
+	@Autowired
+	private GalpaoCachingService cacheG;
 	
 	@GetMapping("/andar/index")
 	public ModelAndView popularIndex() {
 
 		ModelAndView mv = new ModelAndView("/andar/index");
 
-		List<Andar> andares = repA.findAll();
+		List<Andar> andares = cacheA.findAll();
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		
@@ -50,7 +58,7 @@ public class AndarControllerMVC {
 		}
 
 		mv.addObject("andares", andares);
-		mv.addObject("lista_galpoes", repG.findAll());
+		mv.addObject("lista_galpoes", cacheG.findAll());
 
 		return mv;
 	}
@@ -61,7 +69,7 @@ public class AndarControllerMVC {
 		ModelAndView mv = new ModelAndView("/andar/novo");
 
 		mv.addObject("andar", new Andar());
-		mv.addObject("lista_galpoes", repG.findAll());
+		mv.addObject("lista_galpoes", cacheG.findAll());
 
 		return mv;
 	}
@@ -73,9 +81,9 @@ public class AndarControllerMVC {
 			
 			ModelAndView mv = new ModelAndView("/andar/novo");
 			mv.addObject("andar", andar);
-			mv.addObject("lista_galpoes", repG.findAll());
+			mv.addObject("lista_galpoes", cacheG.findAll());
 			return mv;
-			
+						
 		} else {
 		
 			Andar andar_novo = new Andar();
@@ -83,6 +91,7 @@ public class AndarControllerMVC {
 			andar_novo.setNumero_andar(andar.getNumero_andar());
 			
 			repA.save(andar_novo);
+			cacheA.limparCache();
 			
 			return new ModelAndView("redirect:/index");
 		}
@@ -91,7 +100,7 @@ public class AndarControllerMVC {
 	@GetMapping("/andar/detalhes/{id}")
 	public ModelAndView exibirDetalhesAndar(HttpServletRequest request, @PathVariable Long id) {
 		
-		Optional<Andar> op = repA.findById(id);
+		Optional<Andar> op = cacheA.findById(id);
 		
 		if(op.isPresent()) {
 			
@@ -108,13 +117,14 @@ public class AndarControllerMVC {
 	@GetMapping("/andar/editar/{id}")
 	public ModelAndView exibirPaginaAndar(@PathVariable Long id){
 		
-		Optional<Andar> op = repA.findById(id);
+		Optional<Andar> op = cacheA.findById(id);
 		
 		if(op.isPresent()) {
 			
 			ModelAndView mv = new ModelAndView("/andar/edicao");
 			mv.addObject("andar", op.get());
 			mv.addObject("lista_galpoes", repG.findAll());
+			cacheA.limparCache();
 			return mv;
 			
 		} else {
@@ -129,11 +139,11 @@ public class AndarControllerMVC {
 			
 			ModelAndView mv = new ModelAndView("/andar/edicao");
 			mv.addObject("andar", andar);
-			mv.addObject("lista_galpoes", repG.findAll());
+			mv.addObject("lista_galpoes", cacheG.findAll());
 			return mv;
 			
 		} else {
-			Optional<Andar> op = repA.findById(id);
+			Optional<Andar> op = cacheA.findById(id);
 			
 			if(op.isPresent()) {
 				
@@ -141,6 +151,7 @@ public class AndarControllerMVC {
 				andar_antigo.setNumero_andar(andar.getNumero_andar());
 				andar_antigo.setGalpao(andar.getGalpao());
 				repA.save(andar_antigo);
+				cacheA.limparCache();
 				return new ModelAndView("redirect:/index");
 				
 			} else {
@@ -152,11 +163,12 @@ public class AndarControllerMVC {
 	@GetMapping("/andar/remover/{id}")
 	public ModelAndView removerAndar(@PathVariable Long id) {
 		
-		Optional<Andar> op = repA.findById(id);
+		Optional<Andar> op = cacheA.findById(id);
 		
 		if(op.isPresent()) {
 			
 			repA.deleteById(id);
+			cacheA.limparCache();
 			
 			return new ModelAndView("redirect:/index");
 			

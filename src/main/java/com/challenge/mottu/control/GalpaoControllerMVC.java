@@ -18,6 +18,7 @@ import com.challenge.mottu.model.Galpao;
 import com.challenge.mottu.model.Usuario;
 import com.challenge.mottu.repository.GalpaoRepository;
 import com.challenge.mottu.repository.UsuarioRepository;
+import com.challenge.mottu.service.GalpaoCachingService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -30,6 +31,9 @@ public class GalpaoControllerMVC {
 	private GalpaoRepository repG;
 	
 	@Autowired
+	private GalpaoCachingService cacheG;
+	
+	@Autowired
 	private UsuarioRepository repU;
 	
 	@GetMapping("/galpao/index")
@@ -37,7 +41,7 @@ public class GalpaoControllerMVC {
 
 		ModelAndView mv = new ModelAndView("/galpao/index");
 
-		List<Galpao> galpoes = repG.findAll();
+		List<Galpao> galpoes = cacheG.findAll();
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		
@@ -58,7 +62,7 @@ public class GalpaoControllerMVC {
 		ModelAndView mv = new ModelAndView("/galpao/novo");
 
 		mv.addObject("galpao", new Galpao());
-		mv.addObject("lista_galpoes", repG.findAll());
+		mv.addObject("lista_galpoes", cacheG.findAll());
 
 		return mv;
 	}
@@ -78,6 +82,7 @@ public class GalpaoControllerMVC {
 			galpao_novo.setNome_galpao(galpao.getNome_galpao());
 			
 			repG.save(galpao_novo);
+			cacheG.limparCache();
 			
 			return new ModelAndView("redirect:/index");
 		}
@@ -86,7 +91,7 @@ public class GalpaoControllerMVC {
 	@GetMapping("/galpao/detalhes/{id}")
 	public ModelAndView exibirDetalhesGalpao(HttpServletRequest request, @PathVariable Long id) {
 		
-		Optional<Galpao> op = repG.findById(id);
+		Optional<Galpao> op = cacheG.findById(id);
 		
 		if(op.isPresent()) {
 			
@@ -103,7 +108,7 @@ public class GalpaoControllerMVC {
 	@GetMapping("/galpao/editar/{id}")
 	public ModelAndView exibirPaginaEdicao(@PathVariable Long id){
 		
-		Optional<Galpao> op = repG.findById(id);
+		Optional<Galpao> op = cacheG.findById(id);
 		
 		if(op.isPresent()) {
 			
@@ -126,13 +131,14 @@ public class GalpaoControllerMVC {
 			return mv;
 			
 		} else {
-			Optional<Galpao> op = repG.findById(id);
+			Optional<Galpao> op = cacheG.findById(id);
 			
 			if(op.isPresent()) {
 				
 				Galpao galpao_antigo = op.get();
 				galpao_antigo.setNome_galpao(galpao.getNome_galpao());
 				repG.save(galpao_antigo);
+				cacheG.limparCache();
 				return new ModelAndView("redirect:/index");
 				
 			} else {
@@ -144,11 +150,12 @@ public class GalpaoControllerMVC {
 	@GetMapping("/galpao/remover/{id}")
 	public ModelAndView removerGalpao(@PathVariable Long id) {
 		
-		Optional<Galpao> op = repG.findById(id);
+		Optional<Galpao> op = cacheG.findById(id);
 		
 		if(op.isPresent()) {
 			
 			repG.deleteById(id);
+			cacheG.limparCache();
 			
 			return new ModelAndView("redirect:/index");
 			

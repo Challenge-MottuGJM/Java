@@ -19,6 +19,8 @@ import com.challenge.mottu.model.Vaga;
 import com.challenge.mottu.repository.BlocoRepository;
 import com.challenge.mottu.repository.UsuarioRepository;
 import com.challenge.mottu.repository.VagaRepository;
+import com.challenge.mottu.service.BlocoCachingService;
+import com.challenge.mottu.service.VagaCachingService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -30,17 +32,23 @@ public class VagaControllerMVC {
 	private VagaRepository repV;
 	
 	@Autowired
+	private VagaCachingService cacheV;
+	
+	@Autowired
 	private UsuarioRepository repU;
 	
 	@Autowired
 	private BlocoRepository repB;
+
+	@Autowired
+	private BlocoCachingService cacheB;
 	
 	@GetMapping("/vaga/index")
 	public ModelAndView popularIndex() {
 
 		ModelAndView mv = new ModelAndView("/vaga/index");
 
-		List<Vaga> vagas = repV.findAll();
+		List<Vaga> vagas = cacheV.findAll();
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		
@@ -51,7 +59,7 @@ public class VagaControllerMVC {
 		}
 
 		mv.addObject("vagas", vagas);
-		mv.addObject("lista_blocos", repB.findAll());
+		mv.addObject("lista_blocos", cacheB.findAll());
 
 		return mv;
 	}
@@ -62,7 +70,7 @@ public class VagaControllerMVC {
 		ModelAndView mv = new ModelAndView("/vaga/novo");
 
 		mv.addObject("vaga", new Vaga());
-		mv.addObject("lista_blocos", repB.findAll());
+		mv.addObject("lista_blocos", cacheB.findAll());
 
 		return mv;
 	}
@@ -74,7 +82,7 @@ public class VagaControllerMVC {
 			
 			ModelAndView mv = new ModelAndView("/vaga/novo");
 			mv.addObject("vaga", vaga);
-			mv.addObject("lista_blocos", repB.findAll());
+			mv.addObject("lista_blocos", cacheB.findAll());
 			return mv;
 			
 		} else {
@@ -84,6 +92,7 @@ public class VagaControllerMVC {
 			vaga_novo.setNumero_vaga(vaga.getNumero_vaga());
 			
 			repV.save(vaga_novo);
+			cacheV.limparCache();
 			
 			return new ModelAndView("redirect:/index");
 		}
@@ -92,7 +101,7 @@ public class VagaControllerMVC {
 	@GetMapping("/vaga/detalhes/{id}")
 	public ModelAndView exibirDetalhesVaga(HttpServletRequest request, @PathVariable Long id) {
 		
-		Optional<Vaga> op = repV.findById(id);
+		Optional<Vaga> op = cacheV.findById(id);
 		
 		if(op.isPresent()) {
 			
@@ -109,13 +118,13 @@ public class VagaControllerMVC {
 	@GetMapping("/vaga/editar/{id}")
 	public ModelAndView exibirPaginaVaga(@PathVariable Long id){
 		
-		Optional<Vaga> op = repV.findById(id);
+		Optional<Vaga> op = cacheV.findById(id);
 		
 		if(op.isPresent()) {
 			
 			ModelAndView mv = new ModelAndView("/vaga/edicao");
 			mv.addObject("vaga", op.get());
-			mv.addObject("lista_blocos", repB.findAll());
+			mv.addObject("lista_blocos", cacheB.findAll());
 			return mv;
 			
 		} else {
@@ -130,11 +139,11 @@ public class VagaControllerMVC {
 			
 			ModelAndView mv = new ModelAndView("/vaga/edicao");
 			mv.addObject("vaga", vaga);
-			mv.addObject("lista_blocos", repB.findAll());
+			mv.addObject("lista_blocos", cacheB.findAll());
 			return mv;
 			
 		} else {
-			Optional<Vaga> op = repV.findById(id);
+			Optional<Vaga> op = cacheV.findById(id);
 			
 			if(op.isPresent()) {
 				
@@ -142,6 +151,7 @@ public class VagaControllerMVC {
 				vaga_antiga.setNumero_vaga(vaga.getNumero_vaga());
 				vaga_antiga.setBloco(vaga.getBloco());
 				repV.save(vaga_antiga);
+				cacheV.limparCache();
 				return new ModelAndView("redirect:/index");
 				
 			} else {
@@ -153,11 +163,12 @@ public class VagaControllerMVC {
 	@GetMapping("/vaga/remover/{id}")
 	public ModelAndView removerVaga(@PathVariable Long id) {
 		
-		Optional<Vaga> op = repV.findById(id);
+		Optional<Vaga> op = cacheV.findById(id);
 		
 		if(op.isPresent()) {
 			
 			repV.deleteById(id);
+			cacheV.limparCache();
 			
 			return new ModelAndView("redirect:/index");
 			

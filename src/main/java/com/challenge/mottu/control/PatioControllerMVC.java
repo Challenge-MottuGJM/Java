@@ -19,6 +19,8 @@ import com.challenge.mottu.model.Usuario;
 import com.challenge.mottu.repository.AndarRepository;
 import com.challenge.mottu.repository.PatioRepository;
 import com.challenge.mottu.repository.UsuarioRepository;
+import com.challenge.mottu.service.AndarCachingService;
+import com.challenge.mottu.service.PatioCachingService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -30,17 +32,23 @@ public class PatioControllerMVC {
 	private PatioRepository repP;
 	
 	@Autowired
+	private PatioCachingService cacheP;
+	
+	@Autowired
 	private UsuarioRepository repU;
 	
 	@Autowired
 	private AndarRepository repA;
+	
+	@Autowired
+	private AndarCachingService cacheA;
 	
 	@GetMapping("/patio/index")
 	public ModelAndView popularIndex() {
 
 		ModelAndView mv = new ModelAndView("/patio/index");
 
-		List<Patio> patios = repP.findAll();
+		List<Patio> patios = cacheP.findAll();
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		
@@ -51,7 +59,7 @@ public class PatioControllerMVC {
 		}
 
 		mv.addObject("patios", patios);
-		mv.addObject("lista_andares", repA.findAll());
+		mv.addObject("lista_andares", cacheA.findAll());
 
 		return mv;
 	}
@@ -62,7 +70,7 @@ public class PatioControllerMVC {
 		ModelAndView mv = new ModelAndView("/patio/novo");
 
 		mv.addObject("patio", new Patio());
-		mv.addObject("lista_andares", repA.findAll());
+		mv.addObject("lista_andares", cacheA.findAll());
 
 		return mv;
 	}
@@ -74,7 +82,7 @@ public class PatioControllerMVC {
 			
 			ModelAndView mv = new ModelAndView("/patio/novo");
 			mv.addObject("patio", patio);
-			mv.addObject("lista_andares", repA.findAll());
+			mv.addObject("lista_andares", cacheA.findAll());
 			return mv;
 			
 		} else {
@@ -84,6 +92,7 @@ public class PatioControllerMVC {
 			patio_novo.setNumero_patio(patio.getNumero_patio());
 			
 			repP.save(patio_novo);
+			cacheP.limparCache();
 			
 			return new ModelAndView("redirect:/index");
 		}
@@ -92,7 +101,7 @@ public class PatioControllerMVC {
 	@GetMapping("/patio/detalhes/{id}")
 	public ModelAndView exibirDetalhesPatio(HttpServletRequest request, @PathVariable Long id) {
 		
-		Optional<Patio> op = repP.findById(id);
+		Optional<Patio> op = cacheP.findById(id);
 		
 		if(op.isPresent()) {
 			
@@ -109,13 +118,13 @@ public class PatioControllerMVC {
 	@GetMapping("/patio/editar/{id}")
 	public ModelAndView exibirPaginaPatio(@PathVariable Long id){
 		
-		Optional<Patio> op = repP.findById(id);
+		Optional<Patio> op = cacheP.findById(id);
 		
 		if(op.isPresent()) {
 			
 			ModelAndView mv = new ModelAndView("/patio/edicao");
 			mv.addObject("patio", op.get());
-			mv.addObject("lista_andares", repA.findAll());
+			mv.addObject("lista_andares", cacheA.findAll());
 			return mv;
 			
 		} else {
@@ -130,11 +139,11 @@ public class PatioControllerMVC {
 			
 			ModelAndView mv = new ModelAndView("/patio/edicao");
 			mv.addObject("patio", patio);
-			mv.addObject("lista_andares", repA.findAll());
+			mv.addObject("lista_andares", cacheA.findAll());
 			return mv;
 			
 		} else {
-			Optional<Patio> op = repP.findById(id);
+			Optional<Patio> op = cacheP.findById(id);
 			
 			if(op.isPresent()) {
 				
@@ -142,6 +151,7 @@ public class PatioControllerMVC {
 				patio_antigo.setNumero_patio(patio.getNumero_patio());
 				patio_antigo.setAndar(patio.getAndar());
 				repP.save(patio_antigo);
+				cacheP.limparCache();
 				return new ModelAndView("redirect:/index");
 				
 			} else {
@@ -153,11 +163,12 @@ public class PatioControllerMVC {
 	@GetMapping("/patio/remover/{id}")
 	public ModelAndView removerPatio(@PathVariable Long id) {
 		
-		Optional<Patio> op = repP.findById(id);
+		Optional<Patio> op = cacheP.findById(id);
 		
 		if(op.isPresent()) {
 			
 			repP.deleteById(id);
+			cacheP.limparCache();
 			
 			return new ModelAndView("redirect:/index");
 			

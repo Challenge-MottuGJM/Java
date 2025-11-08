@@ -2,9 +2,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragmentos :: cabecalho('Tela de Login')}" />
   <body>
+	
+	<style>
+		button{
+			background-color: #008000 !important;
+		}
+		h1{
+			color: #006400;
+		}
+		form{
+			color: white;
+		}
+	</style>
+	
     <div class="container" style="align-items: center; text-align: center;">
         <div class="row">
-            <h1>Mottu - Login</h1>
+            <h1>Easy Finder - Login</h1>
         </div>
         
 		<div th:if="${param.logout}">

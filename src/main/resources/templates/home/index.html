@@ -3,12 +3,38 @@
 <head th:replace="~{fragmentos :: cabecalho('Menu do Sistema')}" />
 
 <body>
+	
+	<style>
+		.custom-btn{
+			background-color: #008000 !important;
+			color: white !important;
+		}
+		.custom-card{
+			padding: 16px !important; 
+			min-width: 220px !important; 
+			background-color: #1C1C1C !important;
+			border-color: #00FF00 !important;
+		}
+		h3{
+			color: #006400 !important;
+		}
+		p{
+			color: white !important;
+		}
+		h1{
+			color: #006400 !important;
+		}
+		h2{
+			color: white !important;
+		}
+	</style>
 
   <div th:replace="~{fragmentos :: form-logout}" />
 
   <div class="container">
 
-    <div style="display: flex; align-items: center;">
+    <div style="display: flex; align-items: center; color: #006400">
+	<img src="/img/logo.png" alt="Logo" style="height: 80px; margin-right: 16px; margin-top: 5px">
       <b><h1>
         <span th:text="#{saudacao}">Olá,</span>
         <span th:text="${usuario.nome}">X</span>!
@@ -22,52 +48,52 @@
     <!-- Grade de opções -->
     <div class="row" style="gap: 16px; margin-top: 12px;">
       <!-- Galpão -->
-      <div class="col-3 card" style="padding: 16px; min-width: 220px;">
+      <div class="col-3 card custom-card">
         <h3>Galpão</h3>
         <p>Gerenciar galpões.</p>
-        <a class="btn btn-primary" th:href="@{/galpao/index}">Abrir</a>
+        <a class="btn custom-btn" th:href="@{/galpao/index}">Abrir</a>
       </div>
 
       <!-- Andar -->
-      <div class="col-3 card" style="padding: 16px; min-width: 220px;">
+      <div class="col-3 card custom-card">
         <h3>Andar</h3>
         <p>Gerenciar andares.</p>
-        <a class="btn btn-primary" th:href="@{/andar/index}">Abrir</a>
+        <a class="btn custom-btn" th:href="@{/andar/index}">Abrir</a>
       </div>
 
       <!-- Pátio -->
-      <div class="col-3 card" style="padding: 16px; min-width: 220px;">
+      <div class="col-3 card custom-card">
         <h3>Pátio</h3>
         <p>Gerenciar pátios.</p>
-        <a class="btn btn-primary" th:href="@{/patio/index}">Abrir</a>
+        <a class="btn custom-btn" th:href="@{/patio/index}">Abrir</a>
       </div>
 
       <!-- Bloco -->
-      <div class="col-3 card" style="padding: 16px; min-width: 220px;">
+      <div class="col-3 card custom-card">
         <h3>Bloco</h3>
         <p>Gerenciar blocos.</p>
-        <a class="btn btn-primary" th:href="@{/bloco/index}">Abrir</a>
+        <a class="btn custom-btn" th:href="@{/bloco/index}">Abrir</a>
       </div>
 
       <!-- Vaga -->
-      <div class="col-3 card" style="padding: 16px; min-width: 220px;">
+      <div class="col-3 card custom-card">
         <h3>Vaga</h3>
         <p>Gerenciar vagas.</p>
-        <a class="btn btn-primary" th:href="@{/vaga/index}">Abrir</a>
+        <a class="btn custom-btn" th:href="@{/vaga/index}">Abrir</a>
       </div>
 
       <!-- Moto -->
-      <div class="col-3 card" style="padding: 16px; min-width: 220px;">
+      <div class="col-3 card custom-card">
         <h3>Moto</h3>
         <p>Gerenciar motos.</p>
-        <a class="btn btn-primary" th:href="@{/moto/index}">Abrir</a>
+        <a class="btn custom-btn" th:href="@{/moto/index}">Abrir</a>
       </div>
 
       <!-- Usuário -->
-      <div class="col-3 card" style="padding: 16px; min-width: 220px;">
+      <div class="col-3 card custom-card">
         <h3>Usuário</h3>
         <p>Gerenciar usuários.</p>
-        <a class="btn btn-primary" th:href="@{/usuario/index}">Abrir</a>
+        <a class="btn custom-btn" th:href="@{/usuario/index}">Abrir</a>
       </div>
     </div>
 

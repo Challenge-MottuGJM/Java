@@ -18,6 +18,8 @@ import com.challenge.mottu.model.Usuario;
 import com.challenge.mottu.repository.BlocoRepository;
 import com.challenge.mottu.repository.PatioRepository;
 import com.challenge.mottu.repository.UsuarioRepository;
+import com.challenge.mottu.service.BlocoCachingService;
+import com.challenge.mottu.service.PatioCachingService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -29,17 +31,23 @@ public class BlocoControllerMVC {
 	private BlocoRepository repB;
 	
 	@Autowired
+	private BlocoCachingService cacheB;
+	
+	@Autowired
 	private UsuarioRepository repU;
 	
 	@Autowired
 	private PatioRepository repP;
+	
+	@Autowired
+	private PatioCachingService cacheP;
 	
 	@GetMapping("/bloco/index")
 	public ModelAndView popularIndex() {
 
 		ModelAndView mv = new ModelAndView("/bloco/index");
 
-		List<Bloco> blocos = repB.findAll();
+		List<Bloco> blocos = cacheB.findAll();
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		
@@ -50,7 +58,7 @@ public class BlocoControllerMVC {
 		}
 
 		mv.addObject("blocos", blocos);
-		mv.addObject("lista_patios", repP.findAll());
+		mv.addObject("lista_patios", cacheP.findAll());
 
 		return mv;
 	}
@@ -61,7 +69,7 @@ public class BlocoControllerMVC {
 		ModelAndView mv = new ModelAndView("/bloco/novo");
 
 		mv.addObject("bloco", new Bloco());
-		mv.addObject("lista_patios", repP.findAll());
+		mv.addObject("lista_patios", cacheP.findAll());
 
 		return mv;
 	}
@@ -73,7 +81,7 @@ public class BlocoControllerMVC {
 			
 			ModelAndView mv = new ModelAndView("/bloco/novo");
 			mv.addObject("bloco", bloco);
-			mv.addObject("lista_patios", repP.findAll());
+			mv.addObject("lista_patios", cacheP.findAll());
 			return mv;
 			
 		} else {
@@ -83,6 +91,7 @@ public class BlocoControllerMVC {
 		bloco_novo.setLetra_bloco(bloco.getLetra_bloco());
 		
 		repB.save(bloco_novo);
+		cacheB.limparCache();
 		
 		return new ModelAndView("redirect:/index");
 		}
@@ -91,7 +100,7 @@ public class BlocoControllerMVC {
 	@GetMapping("/bloco/detalhes/{id}")
 	public ModelAndView exibirDetalhesBloco(HttpServletRequest request, @PathVariable Long id) {
 		
-		Optional<Bloco> op = repB.findById(id);
+		Optional<Bloco> op = cacheB.findById(id);
 		
 		if(op.isPresent()) {
 			
@@ -108,13 +117,13 @@ public class BlocoControllerMVC {
 	@GetMapping("/bloco/editar/{id}")
 	public ModelAndView exibirPaginaBloco(@PathVariable Long id){
 		
-		Optional<Bloco> op = repB.findById(id);
+		Optional<Bloco> op = cacheB.findById(id);
 		
 		if(op.isPresent()) {
 			
 			ModelAndView mv = new ModelAndView("/bloco/edicao");
 			mv.addObject("bloco", op.get());
-			mv.addObject("lista_patios", repP.findAll());
+			mv.addObject("lista_patios", cacheP.findAll());
 			return mv;
 			
 		} else {
@@ -129,11 +138,11 @@ public class BlocoControllerMVC {
 			
 			ModelAndView mv = new ModelAndView("/bloco/edicao");
 			mv.addObject("bloco", bloco);
-			mv.addObject("lista_patios", repP.findAll());
+			mv.addObject("lista_patios", cacheP.findAll());
 			return mv;
 			
 		} else {
-			Optional<Bloco> op = repB.findById(id);
+			Optional<Bloco> op = cacheB.findById(id);
 			
 			if(op.isPresent()) {
 				
@@ -141,6 +150,7 @@ public class BlocoControllerMVC {
 				bloco_antigo.setLetra_bloco(bloco.getLetra_bloco());
 				bloco_antigo.setPatio(bloco.getPatio());
 				repB.save(bloco_antigo);
+				cacheB.limparCache();
 				return new ModelAndView("redirect:/index");
 				
 			} else {
@@ -152,11 +162,12 @@ public class BlocoControllerMVC {
 	@GetMapping("/bloco/remover/{id}")
 	public ModelAndView removerBloco(@PathVariable Long id) {
 		
-		Optional<Bloco> op = repB.findById(id);
+		Optional<Bloco> op = cacheB.findById(id);
 		
 		if(op.isPresent()) {
 			
 			repB.deleteById(id);
+			cacheB.limparCache();
 			
 			return new ModelAndView("redirect:/index");
 			
